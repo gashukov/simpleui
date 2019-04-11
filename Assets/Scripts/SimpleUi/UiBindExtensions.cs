@@ -1,4 +1,5 @@
-﻿using SimpleUi.Abstracts;
+using SimpleUi.Abstracts;
+using SimpleUi.Interfaces;
 using UnityEngine;
 using Zenject;
 
