@@ -6,5 +6,14 @@ namespace SimpleUi.Abstracts {
 		public virtual void Show() => gameObject.SetActive(true);
 
 		public virtual void Hide() => gameObject.SetActive(false);
+		public IUiElement[] GetUiElements() => gameObject.GetComponentsInChildren<IUiElement>();
+
+		public void SetOrder(int index) {
+			var parent = transform.parent;
+			if(parent == null)
+				return;
+			var childsCount = parent.childCount - 1;
+			transform.SetSiblingIndex(childsCount - index);
+		}
 	}
 }

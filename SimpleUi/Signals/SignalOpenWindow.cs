@@ -5,8 +5,13 @@ namespace SimpleUi.Signals {
 		public readonly Type Type;
 		public readonly string Name;
 
-		public SignalOpenWindow(Type type) { Type = type; }
+		private SignalOpenWindow(Type type) { Type = type; }
 
-		public SignalOpenWindow(string name) { Name = name; }
+		private SignalOpenWindow(string name) { Name = name; }
+
+		public static SignalOpenWindow Build<T>() where T : Window 
+			=> new SignalOpenWindow(typeof(T));
+		
+		public static SignalOpenWindow Build(string name) => new SignalOpenWindow(name);
 	}
 }
