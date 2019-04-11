@@ -11,6 +11,6 @@ namespace Example {
 			_signalBus = signalBus;
 		}
 
-		public void Initialize() { _signalBus.Fire(new SignalOpenWindow("First")); }
+		public void Initialize() { _signalBus.Fire(SignalOpenWindow.Build("First")); }
 	}
 }

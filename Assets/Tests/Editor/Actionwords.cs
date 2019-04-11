@@ -14,7 +14,7 @@ namespace SimpleUi {
 		[Inject] private SignalBus _signalBus;
 
 		public void OpenFirstIsActive() {
-			_signalBus.Fire(new SignalOpenWindow(typeof(FirstWindow)));
+			_signalBus.Fire(SignalOpenWindow.Build<FirstWindow>());
 			
 			AssertController(State.Open, _firstController);
 			AssertController(State.Closed, _secondController);
@@ -24,7 +24,7 @@ namespace SimpleUi {
 		}
 
 		public void OpenSecondIsActive() {
-			_signalBus.Fire(new SignalOpenWindow(typeof(SecondWindow)));
+			_signalBus.Fire(SignalOpenWindow.Build<SecondWindow>());
 			
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Open, _secondController);
@@ -34,7 +34,7 @@ namespace SimpleUi {
 		}
 
 		public void OpenThirdIsActive() {
-			_signalBus.Fire(new SignalOpenWindow(typeof(ThirdWindow)));
+			_signalBus.Fire(SignalOpenWindow.Build<ThirdWindow>());
 			
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
@@ -44,7 +44,7 @@ namespace SimpleUi {
 		}
 
 		public void OpenPopUpFirstIsActive() {
-			_signalBus.Fire(new SignalOpenWindow(typeof(FirstPopUpWindow)));
+			_signalBus.Fire(SignalOpenWindow.Build<FirstPopUpWindow>());
 			
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
@@ -54,7 +54,7 @@ namespace SimpleUi {
 		}
 
 		public void OpenPopUpSecondIsActive() {
-			_signalBus.Fire(new SignalOpenWindow(typeof(SecondPopUpWindow)));
+			_signalBus.Fire(SignalOpenWindow.Build<SecondPopUpWindow>());
 			
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
@@ -74,7 +74,7 @@ namespace SimpleUi {
 		}
 
 		public void OpenTwoControllerWindowFirstSecondIsActive() {
-			_signalBus.Fire(new SignalOpenWindow(typeof(WindowTwoControllers)));
+			_signalBus.Fire(SignalOpenWindow.Build<WindowTwoControllers>());
 			
 			AssertController(State.Open, _firstController);
 			AssertController(State.Open, _secondController);
@@ -84,7 +84,7 @@ namespace SimpleUi {
 		}
 
 		public void OpenThreeControllerWindowFirstSecondThirdIsActive() {
-			_signalBus.Fire(new SignalOpenWindow(typeof(WindowThreeControllers)));
+			_signalBus.Fire(SignalOpenWindow.Build<WindowThreeControllers>());
 			
 			AssertController(State.Open, _firstController);
 			AssertController(State.Open, _secondController);

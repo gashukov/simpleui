@@ -4,7 +4,7 @@ using SimpleUi.Models;
 using Zenject;
 
 namespace SimpleUi.Abstracts {
-	public abstract class UiController<T> : IUiController where T : UiView {
+	public abstract class UiController<T> : IUiController where T : IUiView {
 		private readonly Stack<UiControllerState> _states = new Stack<UiControllerState>();
 		private readonly UiControllerState _defaultState = new UiControllerState(false, false, 0);
 
@@ -38,7 +38,7 @@ namespace SimpleUi.Abstracts {
 			SetState(_states.Pop());
 		}
 
-		public IUiElement[] GetUiElements() => View.GetComponentsInChildren<IUiElement>();
+		public IUiElement[] GetUiElements() => View.GetUiElements();
 
 		protected virtual void Show() => View.Show();
 
@@ -46,12 +46,6 @@ namespace SimpleUi.Abstracts {
 
 		protected virtual void OnHasFocus(bool inFocus) { }
 
-		private void SetOrder(int index) {
-			var parent = View.transform.parent;
-			if(parent == null)
-				return;
-			var childsCount = parent.childCount - 1;
-			View.transform.SetSiblingIndex(childsCount - index);
-		}
+		private void SetOrder(int index) => View.SetOrder(index);
 	}
 }
