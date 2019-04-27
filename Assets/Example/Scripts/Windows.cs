@@ -23,11 +23,11 @@ namespace Example {
 		public override string Name => "SecondPopUp";
 	}
 	
-	public class FourthWindow : Window<FirstController, SecondController, FourthController> {
+	public class FourthWindow : Window<FourthController, FirstController, SecondController> {
 		public override string Name => "Fourth";
 	}
 	
-	public class FifthWindow : Window<FirstController, SecondController, ThirdController, FifthController> {
+	public class FifthWindow : Window<FifthController, FirstController, SecondController, ThirdController> {
 		public override string Name => "Fifth";
 	}
 }

@@ -9,7 +9,6 @@ namespace SimpleUi.Abstracts {
 		private readonly UiControllerState _defaultState = new UiControllerState(false, false, 0);
 
 		[Inject] protected readonly T View;
-		public abstract int Order { get; }
 		public bool IsActive { get; private set; }
 		public bool InFocus { get; private set; }
 

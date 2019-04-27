@@ -7,15 +7,12 @@ namespace SimpleUi.Abstracts {
 		private readonly UiControllerState _defaultState = new UiControllerState(false, false, 0);
 		private readonly Stack<UiControllerState> _states = new Stack<UiControllerState>();
 		
-		public int OrderIndex;
-		public abstract int Order { get; }
 		public bool IsActive { get; private set; }
 		public bool InFocus { get; private set; }
 
 		public void SetState(UiControllerState state) {
 			IsActive = state.IsActive;
 			InFocus = state.InFocus;
-			OrderIndex = state.Order;
 		}
 
 		public void Back() {

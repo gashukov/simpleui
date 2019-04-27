@@ -7,7 +7,6 @@ using Zenject;
 namespace Example.Controller {
 	public class FirstController : UiController<FirstView>, IInitializable {
 		private readonly SignalBus _signalBus;
-		public override int Order => 10;
 
 		public FirstController(SignalBus signalBus) { _signalBus = signalBus; }
 
@@ -21,7 +20,6 @@ namespace Example.Controller {
 
 	public class SecondController : UiController<SecondView>, IInitializable {
 		private readonly SignalBus _signalBus;
-		public override int Order => 6;
 
 		public SecondController(SignalBus signalBus) { _signalBus = signalBus; }
 
@@ -35,7 +33,6 @@ namespace Example.Controller {
 
 	public class ThirdController : UiController<ThirdView>, IInitializable {
 		private readonly SignalBus _signalBus;
-		public override int Order => 4;
 
 		public ThirdController(SignalBus signalBus) { _signalBus = signalBus; }
 
@@ -49,7 +46,6 @@ namespace Example.Controller {
 
 	public class FirstPopUpController : UiController<FirstPopUpView>, IInitializable {
 		private readonly SignalBus _signalBus;
-		public override int Order => 0;
 
 		public FirstPopUpController(SignalBus signalBus) { _signalBus = signalBus; }
 
@@ -63,7 +59,6 @@ namespace Example.Controller {
 
 	public class SecondPopUpController : UiController<SecondPopUpView>, IInitializable {
 		private readonly SignalBus _signalBus;
-		public override int Order => 0;
 
 		public SecondPopUpController(SignalBus signalBus) { _signalBus = signalBus; }
 
@@ -77,7 +72,6 @@ namespace Example.Controller {
 
 	public class FourthController : UiController<FourthView>, IInitializable {
 		private readonly SignalBus _signalBus;
-		public override int Order => 1;
 
 		public FourthController(SignalBus signalBus) { _signalBus = signalBus; }
 
@@ -91,7 +85,6 @@ namespace Example.Controller {
 
 	public class FifthController : UiController<FifthView>, IInitializable {
 		private readonly SignalBus _signalBus;
-		public override int Order => 1;
 
 		public FifthController(SignalBus signalBus) { _signalBus = signalBus; }
 
