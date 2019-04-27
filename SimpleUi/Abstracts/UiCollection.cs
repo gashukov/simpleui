@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 
 namespace SimpleUi.Abstracts {
-	public abstract class UiCollection<TView> : MonoBehaviour, IUiCollection where TView : UiView {
+	public abstract class UiCollection<TView> : MonoBehaviour, IUiCollection where TView : IUiView {
 		[SerializeField] private Transform _collectionRoot;
 		[Inject] private IFactory<TView> _factory;
 
@@ -12,7 +12,7 @@ namespace SimpleUi.Abstracts {
 
 		public TView AddItem() {
 			var item = _factory.Create();
-			item.transform.SetParent(_collectionRoot, false);
+			item.SetParent(_collectionRoot);
 			item.Show();
 			_items.Add(item);
 			return item;
@@ -22,19 +22,19 @@ namespace SimpleUi.Abstracts {
 		
 		public void RemoveItem(TView view) {
 			_items.Remove(view);
-			Destroy(view.gameObject);
+			view.Destroy();
 		}
 
 		public void Clear() {
 			foreach (var item in _items)
-				Destroy(item.gameObject);
+				item.Destroy();
 			_items.Clear();
 		}
 
 		public int Count() => _items.Count;
 	}
 	
-	public abstract class UiCollection<TKey, TView> : MonoBehaviour, IUiCollection where TView : UiView {
+	public abstract class UiCollection<TKey, TView> : MonoBehaviour, IUiCollection where TView : IUiView {
 		[SerializeField] private Transform _collectionRoot;
 		[Inject] private IFactory<TKey, TView> _factory;
 
@@ -42,7 +42,7 @@ namespace SimpleUi.Abstracts {
 
 		public TView AddItem(TKey key) {
 			var item = _factory.Create(key);
-			item.transform.SetParent(_collectionRoot, false);
+			item.SetParent(_collectionRoot);
 			item.Show();
 			_items.Add(key, item);
 			return item;
@@ -50,9 +50,16 @@ namespace SimpleUi.Abstracts {
 
 		public Dictionary<TKey, TView>.ValueCollection GetItems() => _items.Values;
 
+		public TView GetItem(TKey key) => _items[key];
+
+		public void RemoveItem(TKey key) {
+			var view = _items[key];
+			view.Destroy();
+		}
+
 		public void Clear() {
 			foreach (var item in _items.Values)
-				Destroy(item.gameObject);
+				item.Destroy();
 			_items.Clear();
 		}
 

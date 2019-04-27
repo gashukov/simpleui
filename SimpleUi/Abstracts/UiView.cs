@@ -10,10 +10,13 @@ namespace SimpleUi.Abstracts {
 
 		public void SetOrder(int index) {
 			var parent = transform.parent;
-			if(parent == null)
+			if (parent == null)
 				return;
 			var childsCount = parent.childCount - 1;
 			transform.SetSiblingIndex(childsCount - index);
 		}
+
+		public void SetParent(Transform parent) => transform.SetParent(parent, false);
+		public void Destroy() => Destroy(gameObject);
 	}
 }
