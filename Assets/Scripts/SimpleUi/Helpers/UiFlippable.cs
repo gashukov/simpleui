@@ -1,62 +1,53 @@
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace SimpleUi.Helpers {
-	[RequireComponent(typeof(RectTransform), typeof(Graphic)), DisallowMultipleComponent]
+	[RequireComponent(typeof(RectTransform), typeof(Graphic))]
+	[DisallowMultipleComponent]
 	[AddComponentMenu("UI/Levels/Extensions/Flippable")]
 	public class UiFlippable : BaseMeshEffect {
-		[SerializeField] private bool m_Horizontal = false;
-		[SerializeField] private bool m_Veritical = false;
+		[FormerlySerializedAs("Horizontal")] public bool Horizontal;
+		[FormerlySerializedAs("Vertical")] public bool Vertical;
 
-#if UNITY_EDITOR
-		protected override void Awake() { OnValidate(); }
-#endif
+		private RectTransform _rectTransform;
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIFlippable"/> should be flipped horizontally.
-		/// </summary>
-		/// <value><c>true</c> if horizontal; otherwise, <c>false</c>.</value>
-		public bool horizontal { get { return this.m_Horizontal; } set { this.m_Horizontal = value; } }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIFlippable"/> should be flipped vertically.
-		/// </summary>
-		/// <value><c>true</c> if vertical; otherwise, <c>false</c>.</value>
-		public bool vertical { get { return this.m_Veritical; } set { this.m_Veritical = value; } }
+		protected override void Awake() {
+		#if UNITY_EDITOR
+			OnValidate();
+		#endif
+			_rectTransform = transform as RectTransform;
+		}
 
 		public override void ModifyMesh(VertexHelper verts) {
-			RectTransform rt = this.transform as RectTransform;
-
-			for (int i = 0; i < verts.currentVertCount; ++i) {
-				UIVertex uiVertex = new UIVertex();
+			for (var i = 0; i < verts.currentVertCount; ++i) {
+				var uiVertex = new UIVertex();
 				verts.PopulateUIVertex(ref uiVertex, i);
+				
+				var rect = _rectTransform.rect;
+				uiVertex.position = new Vector3(Horizontal
+						? uiVertex.position.x + (rect.center.x - uiVertex.position.x) * 2
+						: uiVertex.position.x,
+					Vertical
+						? uiVertex.position.y + (rect.center.y - uiVertex.position.y) * 2
+						: uiVertex.position.y,
+					uiVertex.position.z);
 
-				// Modify positions
-				uiVertex.position = new Vector3(
-					(this.m_Horizontal
-						? (uiVertex.position.x + (rt.rect.center.x - uiVertex.position.x) * 2)
-						: uiVertex.position.x),
-					(this.m_Veritical
-						? (uiVertex.position.y + (rt.rect.center.y - uiVertex.position.y) * 2)
-						: uiVertex.position.y),
-					uiVertex.position.z
-				);
-
-				// Apply
 				verts.SetUIVertex(uiVertex, i);
 			}
 		}
 
-#if UNITY_EDITOR
+	#if UNITY_EDITOR
 		protected override void OnValidate() {
 			var components = gameObject.GetComponents(typeof(BaseMeshEffect));
-			foreach (var comp in components) {
-				if (comp.GetType() != typeof(UiFlippable)) { UnityEditorInternal.ComponentUtility.MoveComponentUp(this); }
+			foreach (var comp in components)
+				if (comp.GetType() != typeof(UiFlippable))
+					ComponentUtility.MoveComponentUp(this);
 				else break;
-			}
-			this.GetComponent<Graphic>().SetVerticesDirty();
+			GetComponent<Graphic>().SetVerticesDirty();
 			base.OnValidate();
 		}
-#endif
+	#endif
 	}
 }
