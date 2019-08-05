@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using SimpleUi.Signals;
 using Tests.Abstracts;
 using Zenject;
 
@@ -11,11 +10,7 @@ namespace SimpleUi {
 		protected override void Install(DiContainer container) {
 			_actionwords = new Actionwords();
 
-			container.DeclareSignal<SignalOpenWindow>();
-			container.DeclareSignal<SignalBackWindow>();
-			container.DeclareSignal<SignalActiveWindow>().OptionalSubscriber();
-			container.DeclareSignal<SignalFocusWindow>().OptionalSubscriber();
-			container.DeclareSignal<SignalCloseWindow>().OptionalSubscriber();
+			container.BindUiSignals();
 
 			container.BindInterfacesAndSelfTo<FirstController>().AsSingle();
 			container.BindInterfacesAndSelfTo<SecondController>().AsSingle();
@@ -30,7 +25,8 @@ namespace SimpleUi {
 			container.Bind<SecondPopUpWindow>().AsSingle();
 			container.Bind<WindowTwoControllers>().AsSingle();
 			container.Bind<WindowThreeControllers>().AsSingle();
-			container.BindInterfacesAndSelfTo<WindowsController>().AsSingle();
+			
+			container.BindWindowsController<WindowsController>();
 
 			container.Inject(_actionwords);
 		}

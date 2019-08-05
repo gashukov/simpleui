@@ -11,7 +11,6 @@ namespace Example
 			SignalBusInstaller.Install(Container);
 
 			Container.BindUiSignals();
-			
 
 			Container.BindInterfacesAndSelfTo<FirstWindow>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SecondWindow>().AsSingle();
