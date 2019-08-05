@@ -30,7 +30,7 @@ namespace SimpleUi {
 			container.Bind<SecondPopUpWindow>().AsSingle();
 			container.Bind<WindowTwoControllers>().AsSingle();
 			container.Bind<WindowThreeControllers>().AsSingle();
-			container.BindInterfacesAndSelfTo<WindowController>().AsSingle();
+			container.BindInterfacesAndSelfTo<WindowsController>().AsSingle();
 
 			container.Inject(_actionwords);
 		}

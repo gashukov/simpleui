@@ -1,6 +1,5 @@
 ﻿using SimpleUi;
 using SimpleUi.Managers;
-using SimpleUi.Signals;
 using Zenject;
 
 namespace Example
@@ -11,11 +10,8 @@ namespace Example
 		{
 			SignalBusInstaller.Install(Container);
 
-			Container.DeclareSignal<SignalOpenWindow>();
-			Container.DeclareSignal<SignalBackWindow>();
-			Container.DeclareSignal<SignalActiveWindow>().OptionalSubscriber();
-			Container.DeclareSignal<SignalFocusWindow>().OptionalSubscriber();
-			Container.DeclareSignal<SignalCloseWindow>().OptionalSubscriber();
+			Container.BindUiSignals();
+			
 
 			Container.BindInterfacesAndSelfTo<FirstWindow>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SecondWindow>().AsSingle();
@@ -25,10 +21,11 @@ namespace Example
 			Container.BindInterfacesAndSelfTo<FirstPopUpWindow>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SecondPopUpWindow>().AsSingle();
 
-			Container.BindInterfacesTo<WindowController>().AsSingle();
 			Container.BindInterfacesAndSelfTo<UiFilterManager>().AsSingle();
 			Container.BindInterfacesAndSelfTo<UiMapperManager>().AsSingle().NonLazy();
 			Container.BindInterfacesAndSelfTo<TestManager>().AsSingle().NonLazy();
+			
+			Container.BindWindowsController<WindowsController>();
 		}
 	}
 }
