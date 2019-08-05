@@ -1,14 +1,37 @@
 ﻿using SimpleUi.Interfaces;
 using UnityEngine;
 
-namespace SimpleUi.Abstracts {
-	public abstract class UiView : MonoBehaviour, IUiView {
-		public virtual void Show() => gameObject.SetActive(true);
+namespace SimpleUi.Abstracts
+{
+	public abstract class UiView : MonoBehaviour, IUiView
+	{
+		void IUiView.Show()
+		{
+			gameObject.SetActive(true);
+			OnShow();
+		}
 
-		public virtual void Hide() => gameObject.SetActive(false);
-		public IUiElement[] GetUiElements() => gameObject.GetComponentsInChildren<IUiElement>();
+		protected virtual void OnShow()
+		{
+		}
 
-		public void SetOrder(int index) {
+		void IUiView.Hide()
+		{
+			gameObject.SetActive(false);
+			OnHide();
+		}
+
+		protected virtual void OnHide()
+		{
+		}
+
+		void IUiView.SetParent(Transform parent)
+		{
+			transform.SetParent(parent, false);
+		}
+
+		void IUiView.SetOrder(int index)
+		{
 			var parent = transform.parent;
 			if (parent == null)
 				return;
@@ -16,7 +39,14 @@ namespace SimpleUi.Abstracts {
 			transform.SetSiblingIndex(childsCount - index);
 		}
 
-		public void SetParent(Transform parent) => transform.SetParent(parent, false);
-		public void Destroy() => Destroy(gameObject);
+		IUiElement[] IUiView.GetUiElements()
+		{
+			return gameObject.GetComponentsInChildren<IUiElement>();
+		}
+
+		void IUiView.Destroy()
+		{
+			Destroy(gameObject);
+		}
 	}
 }

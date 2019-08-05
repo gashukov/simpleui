@@ -1,17 +1,23 @@
 ﻿using System.Collections.Generic;
 using SimpleUi.Interfaces;
 
-namespace SimpleUi.Models {
-	public class WindowData {
+namespace SimpleUi.Models
+{
+	public class WindowData
+	{
 		public string Name;
 		private Dictionary<string, ElementData> _elements = new Dictionary<string, ElementData>();
 
-		public WindowData(string name, IUiElement[] elements) {
+		public WindowData(string name, IUiElement[] elements)
+		{
 			Name = name;
 			foreach (var element in elements)
 				_elements.Add(element.Name, new ElementData(element));
 		}
 
-		public IUiElement GetElement(string name) => _elements[name].Element;
+		public IUiElement GetElement(string name)
+		{
+			return _elements[name].Element;
+		}
 	}
 }

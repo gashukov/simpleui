@@ -1,8 +1,14 @@
 using SimpleUi.Interfaces;
 
-namespace SimpleUi.Signals {
-	public class SignalCloseWindow {
+namespace SimpleUi.Signals
+{
+	public class SignalCloseWindow
+	{
 		public IWindow Window;
-		public SignalCloseWindow(IWindow window) { Window = window; }
+
+		public SignalCloseWindow(IWindow window)
+		{
+			Window = window;
+		}
 	}
 }

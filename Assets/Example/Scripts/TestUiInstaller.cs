@@ -3,9 +3,12 @@ using SimpleUi.Managers;
 using SimpleUi.Signals;
 using Zenject;
 
-namespace Example {
-	public class TestUiInstaller : MonoInstaller{
-		public override void InstallBindings() {
+namespace Example
+{
+	public class TestUiInstaller : MonoInstaller
+	{
+		public override void InstallBindings()
+		{
 			SignalBusInstaller.Install(Container);
 
 			Container.DeclareSignal<SignalOpenWindow>();
@@ -13,7 +16,7 @@ namespace Example {
 			Container.DeclareSignal<SignalActiveWindow>().OptionalSubscriber();
 			Container.DeclareSignal<SignalFocusWindow>().OptionalSubscriber();
 			Container.DeclareSignal<SignalCloseWindow>().OptionalSubscriber();
-			
+
 			Container.BindInterfacesAndSelfTo<FirstWindow>().AsSingle();
 			Container.BindInterfacesAndSelfTo<SecondWindow>().AsSingle();
 			Container.BindInterfacesAndSelfTo<ThirdWindow>().AsSingle();

@@ -3,158 +3,114 @@ using SimpleUi.Interfaces;
 using SimpleUi.Models;
 using Zenject;
 
-namespace SimpleUi {
-	public abstract class Window : IWindow {
+namespace SimpleUi
+{
+	public abstract class Window : IWindow
+	{
 		public abstract string Name { get; }
 		public abstract void SetState(UiWindowState state);
 		public abstract void Back();
 		public abstract IUiElement[] GetUiElements();
 	}
 
-	public abstract class Window<T> : Window where T : IUiController {
-		private IUiController _controller;
-
-		[Inject]
-		public void Construct(T w1) { _controller = w1; }
-
-		public override void SetState(UiWindowState state) {
-			_controller.SetState(new UiControllerState(state.IsActive, state.InFocus, 0));
-		}
-
-		public override void Back() => _controller.Back();
-
-		public override IUiElement[] GetUiElements() => _controller.GetUiElements();
-	}
-
-	public abstract class Window<T1, T2> : Window where T1 : IUiController where T2 : IUiController {
+	public abstract class BaseWindow : Window
+	{
 		private readonly List<IUiController> _controllers = new List<IUiController>();
 
-		[Inject]
-		public void Construct(T1 w1, T2 w2) {
-			_controllers.Add(w1);
-			_controllers.Add(w2);
+		protected void InternalConstruct(params IUiController[] controllers)
+		{
+			_controllers.AddRange(controllers);
 		}
 
-		public override void SetState(UiWindowState state) {
-			for (var i = 0; i < _controllers.Count; i++) {
-				var controller = _controllers[i];
-				controller.SetState(new UiControllerState(state.IsActive, state.InFocus, i));
-			}
+		public override void SetState(UiWindowState state)
+		{
+			for (var i = 0; i < _controllers.Count; i++)
+				_controllers[i].SetState(new UiControllerState(state.IsActive, state.InFocus, i));
+			ProcessState();
 		}
 
-		public override void Back() {
-			foreach (var controller in _controllers)
-				controller.Back();
+		public override void Back()
+		{
+			for (var i = 0; i < _controllers.Count; i++)
+				_controllers[i].Back();
+			ProcessState();
 		}
 
-		public override IUiElement[] GetUiElements() {
+		private void ProcessState()
+		{
+			for (var i = 0; i < _controllers.Count; i++)
+				_controllers[i].ProcessStateOrder();
+			for (var i = 0; i < _controllers.Count; i++)
+				_controllers[i].ProcessState();
+		}
+
+		public override IUiElement[] GetUiElements()
+		{
 			var list = new List<IUiElement>();
-			foreach (var controller in _controllers) 
-				list.AddRange(controller.GetUiElements());
+			for (var i = 0; i < _controllers.Count; i++)
+				list.AddRange(_controllers[i].GetUiElements());
+
 			return list.ToArray();
 		}
 	}
 
-	public abstract class Window<T1, T2, T3> : Window
-		where T1 : IUiController where T2 : IUiController where T3 : IUiController {
-		private readonly List<IUiController> _controllers = new List<IUiController>();
-
+	public abstract class Window<T1> : BaseWindow
+		where T1 : IUiController
+	{
 		[Inject]
-		public void Construct(T1 w1, T2 w2, T3 w3) {
-			_controllers.Add(w1);
-			_controllers.Add(w2);
-			_controllers.Add(w3);
-		}
-
-		public override void SetState(UiWindowState state) {
-			for (var i = 0; i < _controllers.Count; i++) {
-				var controller = _controllers[i];
-				controller.SetState(new UiControllerState(state.IsActive, state.InFocus, i));
-			}
-		}
-
-		public override void Back() {
-			foreach (var controller in _controllers)
-				controller.Back();
-		}
-		
-		public override IUiElement[] GetUiElements() {
-			var list = new List<IUiElement>();
-			foreach (var controller in _controllers) 
-				list.AddRange(controller.GetUiElements());
-			return list.ToArray();
+		public void Construct(T1 w1)
+		{
+			InternalConstruct(w1);
 		}
 	}
 
-	public abstract class Window<T1, T2, T3, T4> : Window
+	public abstract class Window<T1, T2> : BaseWindow
+		where T1 : IUiController
+		where T2 : IUiController
+	{
+		[Inject]
+		public void Construct(T1 w1, T2 w2)
+		{
+			InternalConstruct(w1, w2);
+		}
+	}
+
+	public abstract class Window<T1, T2, T3> : BaseWindow
 		where T1 : IUiController
 		where T2 : IUiController
 		where T3 : IUiController
-		where T4 : IUiController {
-		private readonly List<IUiController> _controllers = new List<IUiController>();
-
+	{
 		[Inject]
-		public void Construct(T1 w1, T2 w2, T3 w3, T4 w4) {
-			_controllers.Add(w1);
-			_controllers.Add(w2);
-			_controllers.Add(w3);
-			_controllers.Add(w4);
-		}
-
-		public override void SetState(UiWindowState state) {
-			for (var i = 0; i < _controllers.Count; i++) {
-				var controller = _controllers[i];
-				controller.SetState(new UiControllerState(state.IsActive, state.InFocus, i));
-			}
-		}
-
-		public override void Back() {
-			foreach (var controller in _controllers)
-				controller.Back();
-		}
-		
-		public override IUiElement[] GetUiElements() {
-			var list = new List<IUiElement>();
-			foreach (var controller in _controllers) 
-				list.AddRange(controller.GetUiElements());
-			return list.ToArray();
+		public void Construct(T1 w1, T2 w2, T3 w3)
+		{
+			InternalConstruct(w1, w2, w3);
 		}
 	}
-	
-	public abstract class Window<T1, T2, T3, T4, T5> : Window
+
+	public abstract class Window<T1, T2, T3, T4> : BaseWindow
 		where T1 : IUiController
 		where T2 : IUiController
 		where T3 : IUiController
 		where T4 : IUiController
-		where T5 : IUiController {
-		private readonly List<IUiController> _controllers = new List<IUiController>();
-
+	{
 		[Inject]
-		public void Construct(T1 w1, T2 w2, T3 w3, T4 w4, T5 w5) {
-			_controllers.Add(w1);
-			_controllers.Add(w2);
-			_controllers.Add(w3);
-			_controllers.Add(w4);
-			_controllers.Add(w5);
+		public void Construct(T1 w1, T2 w2, T3 w3, T4 w4)
+		{
+			InternalConstruct(w1, w2, w3, w4);
 		}
+	}
 
-		public override void SetState(UiWindowState state) {
-			for (var i = 0; i < _controllers.Count; i++) {
-				var controller = _controllers[i];
-				controller.SetState(new UiControllerState(state.IsActive, state.InFocus, i));
-			}
-		}
-
-		public override void Back() {
-			foreach (var controller in _controllers)
-				controller.Back();
-		}
-		
-		public override IUiElement[] GetUiElements() {
-			var list = new List<IUiElement>();
-			foreach (var controller in _controllers) 
-				list.AddRange(controller.GetUiElements());
-			return list.ToArray();
+	public abstract class Window<T1, T2, T3, T4, T5> : BaseWindow
+		where T1 : IUiController
+		where T2 : IUiController
+		where T3 : IUiController
+		where T4 : IUiController
+		where T5 : IUiController
+	{
+		[Inject]
+		public void Construct(T1 w1, T2 w2, T3 w3, T4 w4, T5 w5)
+		{
+			InternalConstruct(w1, w2, w3, w4, w5);
 		}
 	}
 }

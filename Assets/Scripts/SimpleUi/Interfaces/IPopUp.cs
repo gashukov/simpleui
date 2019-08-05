@@ -1,3 +1,6 @@
-﻿namespace SimpleUi.Interfaces {
-	public interface IPopUp { }
+﻿namespace SimpleUi.Interfaces
+{
+	public interface IPopUp
+	{
+	}
 }

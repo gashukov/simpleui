@@ -1,3 +1,6 @@
-﻿namespace SimpleUi.Interfaces {
-	public interface IUiCollection { }
+﻿namespace SimpleUi.Interfaces
+{
+	public interface IUiCollection
+	{
+	}
 }

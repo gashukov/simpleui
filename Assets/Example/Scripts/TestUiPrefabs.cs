@@ -5,9 +5,11 @@ using SimpleUi.Interfaces;
 using UnityEngine;
 using Zenject;
 
-namespace Example {
+namespace Example
+{
 	[CreateAssetMenu(menuName = "Settings/TestUiPrefabs", fileName = "TestUiPrefabs")]
-	public class TestUiPrefabs : ScriptableObjectInstaller {
+	public class TestUiPrefabs : ScriptableObjectInstaller
+	{
 		[SerializeField] private Canvas _canvas;
 		[SerializeField] private FirstView _firstView;
 		[SerializeField] private SecondView _secondView;
@@ -17,7 +19,8 @@ namespace Example {
 		[SerializeField] private FirstPopUpView _firstPopUpView;
 		[SerializeField] private SecondPopUpView _secondPopUpView;
 
-		public override void InstallBindings() {
+		public override void InstallBindings()
+		{
 			var canvas = Instantiate(_canvas);
 			var parent = canvas.transform;
 			Container.Bind<IUiFilter>().To<CustomGraphicRaycaster>().FromComponentOn(canvas.gameObject).AsSingle();
