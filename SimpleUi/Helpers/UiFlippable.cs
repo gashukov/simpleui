@@ -3,28 +3,33 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace SimpleUi.Helpers {
+namespace SimpleUi.Helpers
+{
 	[RequireComponent(typeof(RectTransform), typeof(Graphic))]
 	[DisallowMultipleComponent]
 	[AddComponentMenu("UI/Levels/Extensions/Flippable")]
-	public class UiFlippable : BaseMeshEffect {
+	public class UiFlippable : BaseMeshEffect
+	{
 		[FormerlySerializedAs("Horizontal")] public bool Horizontal;
 		[FormerlySerializedAs("Vertical")] public bool Vertical;
 
 		private RectTransform _rectTransform;
 
-		protected override void Awake() {
-		#if UNITY_EDITOR
+		protected override void Awake()
+		{
+#if UNITY_EDITOR
 			OnValidate();
-		#endif
+#endif
 			_rectTransform = transform as RectTransform;
 		}
 
-		public override void ModifyMesh(VertexHelper verts) {
-			for (var i = 0; i < verts.currentVertCount; ++i) {
+		public override void ModifyMesh(VertexHelper verts)
+		{
+			for (var i = 0; i < verts.currentVertCount; ++i)
+			{
 				var uiVertex = new UIVertex();
 				verts.PopulateUIVertex(ref uiVertex, i);
-				
+
 				var rect = _rectTransform.rect;
 				uiVertex.position = new Vector3(Horizontal
 						? uiVertex.position.x + (rect.center.x - uiVertex.position.x) * 2
@@ -38,8 +43,9 @@ namespace SimpleUi.Helpers {
 			}
 		}
 
-	#if UNITY_EDITOR
-		protected override void OnValidate() {
+#if UNITY_EDITOR
+		protected override void OnValidate()
+		{
 			var components = gameObject.GetComponents(typeof(BaseMeshEffect));
 			foreach (var comp in components)
 				if (comp.GetType() != typeof(UiFlippable))
@@ -48,6 +54,6 @@ namespace SimpleUi.Helpers {
 			GetComponent<Graphic>().SetVerticesDirty();
 			base.OnValidate();
 		}
-	#endif
+#endif
 	}
 }

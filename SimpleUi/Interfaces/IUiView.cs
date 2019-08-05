@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-namespace SimpleUi.Interfaces {
-	public interface IUiView {
+namespace SimpleUi.Interfaces
+{
+	public interface IUiView
+	{
 		void Show();
 		void Hide();
 		IUiElement[] GetUiElements();

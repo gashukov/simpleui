@@ -1,3 +1,6 @@
-namespace SimpleUi.Signals {
-	public class SignalBackWindow { }
+namespace SimpleUi.Signals
+{
+	public class SignalBackWindow
+	{
+	}
 }

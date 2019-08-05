@@ -3,48 +3,94 @@ using SimpleUi.Interfaces;
 using SimpleUi.Models;
 using Zenject;
 
-namespace SimpleUi.Abstracts {
-	public abstract class UiController<T> : IUiController where T : IUiView {
+namespace SimpleUi.Abstracts
+{
+	public abstract class UiController<T> : IUiController where T : IUiView
+	{
 		private readonly Stack<UiControllerState> _states = new Stack<UiControllerState>();
 		private readonly UiControllerState _defaultState = new UiControllerState(false, false, 0);
+
+		private UiControllerState _currentState;
 
 		[Inject] protected readonly T View;
 		public bool IsActive { get; private set; }
 		public bool InFocus { get; private set; }
 
-		public void SetState(UiControllerState state) {
-			if (IsActive != state.IsActive) {
-				IsActive = state.IsActive;
-				if(state.IsActive)
+		public void SetState(UiControllerState state)
+		{
+			_currentState = state;
+			_states.Push(state);
+		}
+
+		public void ProcessStateOrder()
+		{
+			if (!_currentState.IsActive)
+				return;
+			SetOrder(_currentState.Order);
+		}
+
+		public void ProcessState()
+		{
+			if (IsActive != _currentState.IsActive)
+			{
+				IsActive = _currentState.IsActive;
+				if (_currentState.IsActive)
 					Show();
 				else
 					Hide();
 			}
-			if (InFocus != state.InFocus) {
-				InFocus = state.InFocus;
-				OnHasFocus(state.InFocus);
-			}
-			if(state.IsActive)
-				SetOrder(state.Order);
+
+			if (InFocus == _currentState.InFocus)
+				return;
+			InFocus = _currentState.InFocus;
+			OnHasFocus(_currentState.InFocus);
 		}
 
-		public void Back() {
-			if (_states.Count == 0) {
-				SetState(_defaultState);
-				_states.Clear();
+		public void Back()
+		{
+			if (_states.Count > 0)
+				_states.Pop();
+			if (_states.Count == 0)
+			{
+				_currentState = _defaultState;
 				return;
 			}
+
 			SetState(_states.Pop());
 		}
 
-		public IUiElement[] GetUiElements() => View.GetUiElements();
+		IUiElement[] IUiController.GetUiElements()
+		{
+			return View.GetUiElements();
+		}
 
-		protected virtual void Show() => View.Show();
+		private void Show()
+		{
+			View.Show();
+			OnShow();
+		}
 
-		protected virtual void Hide() => View.Hide();
+		protected virtual void OnShow()
+		{
+		}
 
-		protected virtual void OnHasFocus(bool inFocus) { }
+		public virtual void Hide()
+		{
+			View.Hide();
+			OnHide();
+		}
 
-		private void SetOrder(int index) => View.SetOrder(index);
+		protected virtual void OnHide()
+		{
+		}
+
+		protected virtual void OnHasFocus(bool inFocus)
+		{
+		}
+
+		private void SetOrder(int index)
+		{
+			View.SetOrder(index);
+		}
 	}
 }

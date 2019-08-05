@@ -1,8 +1,14 @@
 using SimpleUi.Interfaces;
 
-namespace SimpleUi.Signals {
-	public class SignalFocusWindow {
+namespace SimpleUi.Signals
+{
+	public class SignalFocusWindow
+	{
 		public IWindow Window;
-		public SignalFocusWindow(IWindow window) { Window = window; }
+
+		public SignalFocusWindow(IWindow window)
+		{
+			Window = window;
+		}
 	}
 }

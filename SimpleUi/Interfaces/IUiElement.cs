@@ -1,5 +1,7 @@
-﻿namespace SimpleUi.Interfaces {
-	public interface IUiElement {
+﻿namespace SimpleUi.Interfaces
+{
+	public interface IUiElement
+	{
 		string Name { get; }
 		int Id { get; }
 		void Highlight();
