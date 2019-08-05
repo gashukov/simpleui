@@ -8,17 +8,19 @@ using Zenject;
 
 namespace SimpleUi
 {
-	public class WindowController : IInitializable, IDisposable
+	public class WindowsController : IWindowsController, IInitializable, IDisposable
 	{
 		private readonly DiContainer _container;
 		private readonly SignalBus _signalBus;
 		private readonly List<IWindow> _windows;
 		private readonly Stack<IWindow> _windowsStack = new Stack<IWindow>();
-		private readonly CompositeDisposable _disposable = new CompositeDisposable();
+		private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
 		private IWindow _window;
 
-		public WindowController(DiContainer container, SignalBus signalBus, List<IWindow> windows)
+		public Stack<IWindow> Windows => _windowsStack;
+
+		public WindowsController(DiContainer container, SignalBus signalBus, List<IWindow> windows)
 		{
 			_container = container;
 			_signalBus = signalBus;
@@ -27,14 +29,12 @@ namespace SimpleUi
 
 		public void Initialize()
 		{
-			_signalBus.GetStream<SignalOpenWindow>().Subscribe(OnOpen).AddTo(_disposable);
-			_signalBus.GetStream<SignalBackWindow>().Subscribe(s => Back()).AddTo(_disposable);
+			_signalBus.GetStream<SignalOpenWindow>().Subscribe(OnOpen).AddTo(_disposables);
+			_signalBus.GetStream<SignalBackWindow>().Subscribe(_ => OnBack()).AddTo(_disposables);
+			_signalBus.GetStream<SignalOpenRootWindow>().Subscribe(OnOpenRoot).AddTo(_disposables);
 		}
 
-		public void Dispose()
-		{
-			_disposable.Dispose();
-		}
+		public void Dispose() => _disposables.Dispose();
 
 		private void OnOpen(SignalOpenWindow signal)
 		{
@@ -70,7 +70,7 @@ namespace SimpleUi
 			ActiveAndFocus(window, isNextWindowPopUp);
 		}
 
-		private void Back()
+		private void OnBack()
 		{
 			if (_windowsStack.Count == 1)
 				return;
@@ -112,6 +112,14 @@ namespace SimpleUi
 			}
 
 			return null;
+		}
+
+		private void OnOpenRoot(SignalOpenRootWindow obj)
+		{
+			while (_windowsStack.Count > 1)
+			{
+				OnBack();
+			}
 		}
 	}
 }
