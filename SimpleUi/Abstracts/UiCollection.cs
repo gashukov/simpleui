@@ -5,26 +5,20 @@ using Zenject;
 
 namespace SimpleUi.Abstracts
 {
-	public abstract class UiCollection<TView> : MonoBehaviour, IUiCollection where TView : IUiView
+	public abstract class UiCollectionBase<TView> : MonoBehaviour, IUiCollection where TView : IUiView
 	{
 		[SerializeField] private Transform _collectionRoot;
-		[Inject] private IFactory<TView> _factory;
 
 		private readonly List<TView> _items = new List<TView>();
 
-		public TView AddItem()
+		protected void OnCreated(TView view)
 		{
-			var item = _factory.Create();
-			item.SetParent(_collectionRoot);
-			item.Show();
-			_items.Add(item);
-			return item;
+			view.SetParent(_collectionRoot);
+			view.Show();
+			_items.Add(view);
 		}
 
-		public List<TView> GetItems()
-		{
-			return _items;
-		}
+		public List<TView> GetItems() => _items;
 
 		public void RemoveItem(TView view)
 		{
@@ -39,54 +33,128 @@ namespace SimpleUi.Abstracts
 			_items.Clear();
 		}
 
-		public int Count()
+		public int Count() => _items.Count;
+	}
+
+	public abstract class UiCollection<TView> 
+		: UiCollectionBase<TView>, 
+			IUiCollection<TView> 
+		where TView : IUiView
+	{
+		[Inject] private IFactory<TView> _factory;
+
+		public TView Create()
 		{
-			return _items.Count;
+			var item = _factory.Create();
+			OnCreated(item);
+			return item;
 		}
 	}
 
-	public abstract class UiCollection<TKey, TView> : MonoBehaviour, IUiCollection where TView : IUiView
+	public abstract class UiCollection<TParam1, TView>
+		: UiCollectionBase<TView>,
+			IUiCollection<TParam1, TView>
+		where TView : IUiView
 	{
-		[SerializeField] private Transform _collectionRoot;
-		[Inject] private IFactory<TKey, TView> _factory;
+		[Inject] private IFactory<TParam1, TView> _factory;
 
-		private readonly Dictionary<TKey, TView> _items = new Dictionary<TKey, TView>();
-
-		public TView AddItem(TKey key)
+		public TView Create(TParam1 param1)
 		{
-			var item = _factory.Create(key);
-			item.SetParent(_collectionRoot);
-			item.Show();
-			_items.Add(key, item);
+			var item = _factory.Create(param1);
+			OnCreated(item);
 			return item;
 		}
+	}
 
-		public Dictionary<TKey, TView>.ValueCollection GetItems()
+	public abstract class UiCollection<TParam1, TParam2, TView>
+		: UiCollectionBase<TView>,
+			IUiCollection<TParam1, TParam2, TView>
+		where TView : IUiView
+	{
+		[Inject] private IFactory<TParam1, TParam2, TView> _factory;
+
+		public TView Create(TParam1 param1, TParam2 param2)
 		{
-			return _items.Values;
+			var item = _factory.Create(param1, param2);
+			OnCreated(item);
+			return item;
 		}
+	}
 
-		public TView GetItem(TKey key)
+	public abstract class UiCollection<TParam1, TParam2, TParam3, TView>
+		: UiCollectionBase<TView>,
+			IUiCollection<TParam1, TParam2, TParam3, TView>
+		where TView : IUiView
+	{
+		[Inject] private IFactory<TParam1, TParam2, TParam3, TView> _factory;
+
+		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3)
 		{
-			return _items[key];
+			var item = _factory.Create(param1, param2, param3);
+			OnCreated(item);
+			return item;
 		}
+	}
 
-		public void RemoveItem(TKey key)
+	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TView>
+		: UiCollectionBase<TView>,
+			IUiCollection<TParam1, TParam2, TParam3, TParam4, TView>
+		where TView : IUiView
+	{
+		[Inject] private IFactory<TParam1, TParam2, TParam3, TParam4, TView> _factory;
+
+		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
 		{
-			var view = _items[key];
-			view.Destroy();
+			var item = _factory.Create(param1, param2, param3, param4);
+			OnCreated(item);
+			return item;
 		}
+	}
 
-		public void Clear()
+	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView>
+		: UiCollectionBase<TView>,
+			IUiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView>
+		where TView : IUiView
+	{
+		[Inject] private IFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TView> _factory;
+
+		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
 		{
-			foreach (var item in _items.Values)
-				item.Destroy();
-			_items.Clear();
+			var item = _factory.Create(param1, param2, param3, param4, param5);
+			OnCreated(item);
+			return item;
 		}
+	}
 
-		public int Count()
+	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
+		: UiCollectionBase<TView>,
+			IUiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
+		where TView : IUiView
+	{
+		[Inject] private IFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView> _factory;
+
+		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
+			TParam6 param6)
 		{
-			return _items.Count;
+			var item = _factory.Create(param1, param2, param3, param4, param5, param6);
+			OnCreated(item);
+			return item;
+		}
+	}
+
+	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView>
+		: UiCollectionBase<TView>,
+			IUiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView>
+		where TView : IUiView
+	{
+		[Inject] private IFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView> _factory;
+
+		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
+			TParam6 param6, TParam7 param7)
+		{
+			var item = _factory.Create(param1, param2, param3, param4, param5, param6, param7);
+			OnCreated(item);
+			return item;
 		}
 	}
 }
