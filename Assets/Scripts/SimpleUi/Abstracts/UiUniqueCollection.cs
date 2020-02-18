@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using SimpleUi.Interfaces;
+using UnityEngine;
 
 namespace SimpleUi.Abstracts
 {
 	public abstract class UiUniqueCollectionBase<TKey, TView> : UiCollectionBase<TView>,
 		IUiUniqueCollectionBase<TKey, TView>
-		where TView : UiView, IUiView, IUniqueView<TKey>
+		where TView : MonoBehaviour, IUiView, IUniqueView<TKey>
 	{
 		private readonly Dictionary<TKey, TView> _views = new Dictionary<TKey, TView>();
 
@@ -41,7 +42,7 @@ namespace SimpleUi.Abstracts
 	public class UiUniqueCollection<TKey, TView>
 		: UiUniqueCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TView>
-		where TView : UiView, IParametrizedView<TKey>, IUniqueView<TKey>
+		where TView : MonoBehaviour, IUiView, IParametrizedView<TKey>, IUniqueView<TKey>
 	{
 		public TView Create(TKey key)
 		{
@@ -55,7 +56,7 @@ namespace SimpleUi.Abstracts
 	public class UiUniqueCollection<TKey, TParam1, TView>
 		: UiUniqueCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TView>
-		where TView : UiView, IUniqueView<TKey>, IParametrizedView<TKey, TParam1>
+		where TView : MonoBehaviour, IUiView, IUniqueView<TKey>, IParametrizedView<TKey, TParam1>
 	{
 		public TView Create(TKey key, TParam1 param1)
 		{
@@ -69,7 +70,7 @@ namespace SimpleUi.Abstracts
 	public class UiUniqueCollection<TKey, TParam1, TParam2, TView>
 		: UiUniqueCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TView>
-		where TView : UiView, IParametrizedView<TKey, TParam1, TParam2>, IUniqueView<TKey>
+		where TView : MonoBehaviour, IUiView, IParametrizedView<TKey, TParam1, TParam2>, IUniqueView<TKey>
 	{
 		public TView Create(TKey key, TParam1 param1, TParam2 param2)
 		{
@@ -83,7 +84,7 @@ namespace SimpleUi.Abstracts
 	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TView>
 		: UiUniqueCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TView>
-		where TView : UiView, IParametrizedView<TKey, TParam1, TParam2, TParam3>, IUniqueView<TKey>
+		where TView : MonoBehaviour, IUiView, IParametrizedView<TKey, TParam1, TParam2, TParam3>, IUniqueView<TKey>
 	{
 		public TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3)
 		{
@@ -97,7 +98,8 @@ namespace SimpleUi.Abstracts
 	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TView>
 		: UiUniqueCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TView>
-		where TView : UiView, IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4>, IUniqueView<TKey>
+		where TView : MonoBehaviour, IUiView, IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4>,
+		IUniqueView<TKey>
 	{
 		public TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
 		{
@@ -111,7 +113,8 @@ namespace SimpleUi.Abstracts
 	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView>
 		: UiUniqueCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView>
-		where TView : UiView, IUniqueView<TKey>, IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4, TParam5>
+		where TView : MonoBehaviour, IUiView, IUniqueView<TKey>,
+		IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4, TParam5>
 	{
 		public TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
 		{
@@ -125,7 +128,7 @@ namespace SimpleUi.Abstracts
 	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
 		: UiUniqueCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
-		where TView : UiView, IUniqueView<TKey>,
+		where TView : MonoBehaviour, IUiView, IUniqueView<TKey>,
 		IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>
 	{
 		public TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
