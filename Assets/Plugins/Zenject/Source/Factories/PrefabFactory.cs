@@ -12,7 +12,7 @@ namespace Zenject
         //where T : Component
     {
         [Inject]
-        readonly DiContainer _container;
+        readonly DiContainer _container = null;
 
         public DiContainer Container
         {
@@ -37,7 +37,7 @@ namespace Zenject
         //where T : Component
     {
         [Inject]
-        readonly DiContainer _container;
+        readonly DiContainer _container = null;
 
         public DiContainer Container
         {
@@ -59,7 +59,7 @@ namespace Zenject
         //where T : Component
     {
         [Inject]
-        readonly DiContainer _container;
+        readonly DiContainer _container = null;
 
         public DiContainer Container
         {
@@ -81,7 +81,7 @@ namespace Zenject
         //where T : Component
     {
         [Inject]
-        readonly DiContainer _container;
+        readonly DiContainer _container = null;
 
         public DiContainer Container
         {
@@ -103,7 +103,7 @@ namespace Zenject
         //where T : Component
     {
         [Inject]
-        readonly DiContainer _container;
+        readonly DiContainer _container = null;
 
         public DiContainer Container
         {

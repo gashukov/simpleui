@@ -18,9 +18,9 @@ namespace Example.Controller
 		public void Initialize()
 		{
 			View.Next.OnClickAsObservable()
-				.Subscribe(s => _signalBus.Fire(SignalOpenWindow.Build<SecondWindow>()))
+				.Subscribe(s => _signalBus.OpenWindow<SecondWindow>())
 				.AddTo(View.Next);
-			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.Fire<SignalBackWindow>()).AddTo(View.Back);
+			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.BackWindow()).AddTo(View.Back);
 		}
 	}
 
@@ -36,9 +36,9 @@ namespace Example.Controller
 		public void Initialize()
 		{
 			View.Next.OnClickAsObservable()
-				.Subscribe(s => _signalBus.Fire(SignalOpenWindow.Build<ThirdWindow>()))
+				.Subscribe(s => _signalBus.OpenWindow<ThirdWindow>())
 				.AddTo(View.Next);
-			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.Fire<SignalBackWindow>()).AddTo(View.Back);
+			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.BackWindow()).AddTo(View.Back);
 		}
 	}
 
@@ -54,9 +54,9 @@ namespace Example.Controller
 		public void Initialize()
 		{
 			View.Next.OnClickAsObservable()
-				.Subscribe(s => _signalBus.Fire(SignalOpenWindow.Build<FirstPopUpWindow>()))
+				.Subscribe(s => _signalBus.OpenWindow<FirstPopUpWindow>())
 				.AddTo(View.Next);
-			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.Fire<SignalBackWindow>()).AddTo(View.Back);
+			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.BackWindow()).AddTo(View.Back);
 		}
 	}
 
@@ -72,9 +72,9 @@ namespace Example.Controller
 		public void Initialize()
 		{
 			View.Next.OnClickAsObservable()
-				.Subscribe(s => _signalBus.Fire(SignalOpenWindow.Build<SecondPopUpWindow>()))
+				.Subscribe(s => _signalBus.OpenWindow<SecondPopUpWindow>())
 				.AddTo(View.Next);
-			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.Fire<SignalBackWindow>()).AddTo(View.Back);
+			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.BackWindow()).AddTo(View.Back);
 		}
 	}
 
@@ -90,9 +90,9 @@ namespace Example.Controller
 		public void Initialize()
 		{
 			View.Next.OnClickAsObservable()
-				.Subscribe(s => _signalBus.Fire(SignalOpenWindow.Build<FourthWindow>()))
+				.Subscribe(s => _signalBus.OpenWindow<FourthWindow>())
 				.AddTo(View.Next);
-			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.Fire<SignalBackWindow>()).AddTo(View.Back);
+			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.BackWindow()).AddTo(View.Back);
 		}
 	}
 
@@ -108,9 +108,9 @@ namespace Example.Controller
 		public void Initialize()
 		{
 			View.Next.OnClickAsObservable()
-				.Subscribe(s => _signalBus.Fire(SignalOpenWindow.Build<FifthWindow>()))
+				.Subscribe(s => _signalBus.OpenWindow<FifthWindow>())
 				.AddTo(View.Next);
-			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.Fire<SignalBackWindow>()).AddTo(View.Back);
+			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.BackWindow()).AddTo(View.Back);
 		}
 	}
 
@@ -125,7 +125,7 @@ namespace Example.Controller
 
 		public void Initialize()
 		{
-			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.Fire<SignalBackWindow>()).AddTo(View.Back);
+			View.Back.OnClickAsObservable().Subscribe(s => _signalBus.BackWindow()).AddTo(View.Back);
 		}
 	}
 }

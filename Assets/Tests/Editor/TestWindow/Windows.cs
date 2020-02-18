@@ -1,31 +1,78 @@
 ﻿using SimpleUi.Interfaces;
 
-namespace SimpleUi {
-	public class FirstWindow : Window<FirstController> {
+namespace SimpleUi
+{
+	public class FirstWindow : WindowBase
+	{
 		public override string Name => "First";
-	}
-	
-	public class SecondWindow : Window<SecondController> {
-		public override string Name => "Second";
-	}
-	
-	public class ThirdWindow : Window<ThirdController> {
-		public override string Name => "Third";
-	}
-	
-	public class WindowTwoControllers : Window<FirstController, SecondController> {
-		public override string Name => "TwoControllers";
-	}
-	
-	public class WindowThreeControllers : Window<FirstController, SecondController, ThirdController> {
-		public override string Name => "ThreeControllers";
+
+
+		protected override void AddControllers()
+		{
+			AddController<FirstController>();
+		}
 	}
 
-	public class FirstPopUpWindow : Window<PopUpFirstController>, IPopUp {
-		public override string Name => "FirstPopUp";
+	public class SecondWindow : WindowBase
+	{
+		public override string Name => "Second";
+
+		protected override void AddControllers()
+		{
+			AddController<SecondController>();
+		}
 	}
-	
-	public class SecondPopUpWindow : Window<PopUpSecondController>, IPopUp {
+
+	public class ThirdWindow : WindowBase
+	{
+		public override string Name => "Third";
+
+		protected override void AddControllers()
+		{
+			AddController<ThirdController>();
+		}
+	}
+
+	public class WindowTwoControllers : WindowBase
+	{
+		public override string Name => "TwoControllers";
+
+		protected override void AddControllers()
+		{
+			AddController<FirstController>();
+			AddController<SecondController>();
+		}
+	}
+
+	public class WindowThreeControllers : WindowBase
+	{
+		public override string Name => "ThreeControllers";
+
+		protected override void AddControllers()
+		{
+			AddController<FirstController>();
+			AddController<SecondController>();
+			AddController<ThirdController>();
+		}
+	}
+
+	public class FirstPopUpWindow : WindowBase, IPopUp
+	{
+		public override string Name => "FirstPopUp";
+
+		protected override void AddControllers()
+		{
+			AddController<PopUpFirstController>();
+		}
+	}
+
+	public class SecondPopUpWindow : WindowBase, IPopUp
+	{
 		public override string Name => "SecondPopUp";
+
+		protected override void AddControllers()
+		{
+			AddController<PopUpSecondController>();
+		}
 	}
 }
