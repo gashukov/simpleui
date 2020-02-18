@@ -7,7 +7,7 @@ namespace SimpleUi.Abstracts
 {
 	public class UiUniqueStaticCollection<TKey, TView> : MonoBehaviour,
 		IUiUniqueStaticCollection<TKey, TView>
-		where TView : IUiView, IUniqueView<TKey>
+		where TView : MonoBehaviour, IUiView, IUniqueView<TKey>
 	{
 		[SerializeField] private List<TView> views;
 

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SimpleUi.Abstracts
 {
 	public class UiStaticCollection<TView> : MonoBehaviour, IUiStaticCollection<TView>
-		where TView : IUiView
+		where TView : MonoBehaviour, IUiView
 	{
 		[SerializeField] protected List<TView> Views;
 
