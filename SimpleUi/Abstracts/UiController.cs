@@ -70,21 +70,21 @@ namespace SimpleUi.Abstracts
 			OnShow();
 		}
 
-		protected virtual void OnShow()
+		public virtual void OnShow()
 		{
 		}
 
-		public virtual void Hide()
+		private void Hide()
 		{
 			View.Hide();
 			OnHide();
 		}
 
-		protected virtual void OnHide()
+		public virtual void OnHide()
 		{
 		}
 
-		protected virtual void OnHasFocus(bool inFocus)
+		public virtual void OnHasFocus(bool inFocus)
 		{
 		}
 

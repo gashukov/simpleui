@@ -1,4 +1,5 @@
 ﻿using SimpleUi.Interfaces;
+using SimpleUi.Managers;
 using SimpleUi.Signals;
 using UnityEngine;
 using Zenject;
@@ -18,21 +19,22 @@ namespace SimpleUi
 				.OnInstantiated((context, o) => ((MonoBehaviour) o).gameObject.SetActive(false));
 		}
 
-		public static void BindUiSignals(this DiContainer container)
+		public static void BindUiSignals(this DiContainer container, EWindowLayer windowLayer)
 		{
-			container.DeclareSignal<SignalOpenWindow>();
-			container.DeclareSignal<SignalOpenRootWindow>();
-			container.DeclareSignal<SignalBackWindow>();
-			container.DeclareSignal<SignalActiveWindow>().OptionalSubscriber();
-			container.DeclareSignal<SignalFocusWindow>().OptionalSubscriber();
-			container.DeclareSignal<SignalCloseWindow>().OptionalSubscriber();
+			container.DeclareSignal<SignalOpenWindow>().WithId(windowLayer);
+			container.DeclareSignal<SignalOpenRootWindow>().WithId(windowLayer);
+			container.DeclareSignal<SignalBackWindow>().WithId(windowLayer);
+			container.DeclareSignal<SignalActiveWindow>().WithId(windowLayer).OptionalSubscriber();
+			container.DeclareSignal<SignalFocusWindow>().WithId(windowLayer).OptionalSubscriber();
+			container.DeclareSignal<SignalCloseWindow>().WithId(windowLayer).OptionalSubscriber();
 		}
-		
-		public static void BindWindowsController<T>(this DiContainer container)
+
+		public static void BindWindowsController<T>(this DiContainer container, EWindowLayer windowLayer)
 			where T : IWindowsController, IInitializable
 		{
 			container.BindInitializableExecutionOrder<T>(-1000);
-			container.BindInterfacesTo<T>().AsSingle().NonLazy();
+			container.BindInterfacesTo<T>().AsSingle().WithArguments(windowLayer).NonLazy();
+			container.BindInterfacesAndSelfTo<UiMapperManager>().AsSingle().WithArguments(windowLayer).NonLazy();
 		}
 	}
 }

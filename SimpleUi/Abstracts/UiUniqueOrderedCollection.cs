@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using SimpleUi.Interfaces;
 
 namespace SimpleUi.Abstracts
 {
-	public abstract class UiUniqueCollectionBase<TKey, TView> : UiCollectionBase<TView>,
+	public class UiUniqueOrderedCollectionBase<TKey, TView> : UiCollectionBase<TView>,
 		IUiUniqueCollectionBase<TKey, TView>
 		where TView : UiView, IUiView, IUniqueView<TKey>
 	{
-		private readonly Dictionary<TKey, TView> _views = new Dictionary<TKey, TView>();
+		private readonly OrderedDictionary _views = new OrderedDictionary();
 
 		protected override void OnCreated(TView view)
 		{
@@ -18,28 +20,28 @@ namespace SimpleUi.Abstracts
 		public override void Clear()
 		{
 			foreach (var item in _views.Values)
-				item.Destroy();
+				((TView) item).Destroy();
 			_views.Clear();
 		}
 
 		public override int Count() => _views.Count;
 
-		public TView this[TKey key] => _views[key];
+		public TView this[TKey key] => (TView) _views[key];
 
 		public void Remove(TKey key)
 		{
-			var view = _views[key];
+			var view = (TView) _views[key];
 			view.Destroy();
 			_views.Remove(key);
 		}
 
-		public bool Contains(TKey key) => _views.ContainsKey(key);
+		public bool Contains(TKey key) => _views.Contains(key);
 
-		public override IEnumerator<TView> GetEnumerator() => _views.Values.GetEnumerator();
+		public override IEnumerator<TView> GetEnumerator() => _views.Values.Cast<TView>().GetEnumerator();
 	}
 
-	public class UiUniqueCollection<TKey, TView>
-		: UiUniqueCollectionBase<TKey, TView>,
+	public class UiUniqueOrderedCollection<TKey, TView>
+		: UiUniqueOrderedCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TView>
 		where TView : UiView, IParametrizedView<TKey>, IUniqueView<TKey>
 	{
@@ -52,8 +54,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public class UiUniqueCollection<TKey, TParam1, TView>
-		: UiUniqueCollectionBase<TKey, TView>,
+	public class UiUniqueOrderedCollection<TKey, TParam1, TView>
+		: UiUniqueOrderedCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TView>
 		where TView : UiView, IUniqueView<TKey>, IParametrizedView<TKey, TParam1>
 	{
@@ -66,8 +68,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public class UiUniqueCollection<TKey, TParam1, TParam2, TView>
-		: UiUniqueCollectionBase<TKey, TView>,
+	public class UiUniqueOrderedCollection<TKey, TParam1, TParam2, TView>
+		: UiUniqueOrderedCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TView>
 		where TView : UiView, IParametrizedView<TKey, TParam1, TParam2>, IUniqueView<TKey>
 	{
@@ -80,8 +82,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TView>
-		: UiUniqueCollectionBase<TKey, TView>,
+	public class UiUniqueOrderedCollection<TKey, TParam1, TParam2, TParam3, TView>
+		: UiUniqueOrderedCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TView>
 		where TView : UiView, IParametrizedView<TKey, TParam1, TParam2, TParam3>, IUniqueView<TKey>
 	{
@@ -94,8 +96,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TView>
-		: UiUniqueCollectionBase<TKey, TView>,
+	public class UiUniqueOrderedCollection<TKey, TParam1, TParam2, TParam3, TParam4, TView>
+		: UiUniqueOrderedCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TView>
 		where TView : UiView, IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4>, IUniqueView<TKey>
 	{
@@ -108,8 +110,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView>
-		: UiUniqueCollectionBase<TKey, TView>,
+	public class UiUniqueOrderedCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView>
+		: UiUniqueOrderedCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView>
 		where TView : UiView, IUniqueView<TKey>, IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4, TParam5>
 	{
@@ -122,8 +124,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public class UiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
-		: UiUniqueCollectionBase<TKey, TView>,
+	public class UiUniqueOrderedCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
+		: UiUniqueOrderedCollectionBase<TKey, TView>,
 			IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
 		where TView : UiView, IUniqueView<TKey>,
 		IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>

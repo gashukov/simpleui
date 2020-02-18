@@ -1,44 +1,63 @@
 namespace SimpleUi.Interfaces
 {
-	public interface IUiUniqueCollection<TKey, TView> : IUiCollection
+	public interface IUiUniqueCollectionBase<TKey, TView> : IUiCollectionBase<TView>
+		where TView : IUiView, IUniqueView<TKey>
 	{
-		TView Create(TKey key);
+		TView this[TKey key] { get; }
+
+		void Remove(TKey key);
+
+		bool Contains(TKey key);
+	}
+
+	public interface IUiUniqueCollection<TKey, TView> : IUiUniqueCollectionBase<TKey, TView>,
+		IUiFactory<TKey, TView>
+		where TView : IParametrizedView<TKey>, IUiView, IUniqueView<TKey>
+	{
 	}
 
 	public interface
-		IUiUniqueCollection<TKey, TParam1, TView> : IUiCollection
+		IUiUniqueCollection<TKey, TParam1, TView> : IUiUniqueCollectionBase<TKey, TView>,
+			IUiFactory<TKey, TParam1, TView>
+		where TView : IParametrizedView<TKey, TParam1>, IUiView, IUniqueView<TKey>
 	{
-		TView Create(TKey key, TParam1 param1);
 	}
 
 	public interface
-		IUiUniqueCollection<TKey, TParam1, TParam2, TView> : IUiCollection
+		IUiUniqueCollection<TKey, TParam1, TParam2, TView> : IUiUniqueCollectionBase<TKey, TView>,
+			IUiFactory<TKey, TParam1, TParam2, TView>
+		where TView : IParametrizedView<TKey, TParam1, TParam2>, IUiView, IUniqueView<TKey>
 	{
-		TView Create(TKey key, TParam1 param1, TParam2 param2);
 	}
 
 	public interface
-		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TView> : IUiCollection
+		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TView> : IUiUniqueCollectionBase<TKey, TView>,
+			IUiFactory<TKey, TParam1, TParam2, TParam3, TView>
+		where TView : IParametrizedView<TKey, TParam1, TParam2, TParam3>, IUiView, IUniqueView<TKey>
 	{
-		TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3);
 	}
 
 	public interface
-		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TView> : IUiCollection
+		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TView> : IUiUniqueCollectionBase<TKey, TView>,
+			IUiFactory<TKey, TParam1, TParam2, TParam3, TParam4, TView>
+		where TView : IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4>, IUiView, IUniqueView<TKey>
 	{
-		TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4);
 	}
 
 	public interface
-		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView> : IUiCollection
+		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView> : IUiUniqueCollectionBase<TKey,
+				TView>,
+			IUiFactory<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TView>
+		where TView : IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4, TParam5>, IUiView, IUniqueView<TKey>
 	{
-		TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5);
 	}
 
 	public interface
-		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView> : IUiCollection
+		IUiUniqueCollection<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6,
+			TView> : IUiUniqueCollectionBase<TKey, TView>,
+			IUiFactory<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
+		where TView : IParametrizedView<TKey, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, IUiView,
+		IUniqueView<TKey>
 	{
-		TView Create(TKey key, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
-			TParam6 param6);
 	}
 }

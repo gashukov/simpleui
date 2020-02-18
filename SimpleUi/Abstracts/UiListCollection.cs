@@ -1,38 +1,47 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using SimpleUi.Interfaces;
-using UnityEngine;
-using Zenject;
 
 namespace SimpleUi.Abstracts
 {
-	public abstract class UiCollectionBase<TView> : MonoBehaviour, IUiCollectionBase<TView>
+	public abstract class UiListCollectionBase<TView> : UiCollectionBase<TView>, IUiListCollectionBase<TView>
 		where TView : UiView, IUiView
 	{
-		[SerializeField] protected TView prefab;
-		[SerializeField] protected Transform collectionRoot;
+		private readonly List<TView> _views = new List<TView>();
 
-		[Inject] protected DiContainer Container;
-
-		protected virtual void OnCreated(TView view)
+		protected override void OnCreated(TView view)
 		{
-			view.SetParent(collectionRoot);
-			view.Show();
+			base.OnCreated(view);
+			_views.Add(view);
 		}
 
-		public abstract void Clear();
-
-		public abstract int Count();
-
-		public abstract IEnumerator<TView> GetEnumerator();
-
-		IEnumerator IEnumerable.GetEnumerator()
+		public override void Clear()
 		{
-			return GetEnumerator();
+			foreach (var item in _views)
+				item.Destroy();
+			_views.Clear();
 		}
+
+		public override int Count() => _views.Count;
+
+		public TView this[int index] => _views[index];
+
+		public void Remove(TView view)
+		{
+			var indexOf = _views.IndexOf(view);
+			RemoveAt(indexOf);
+		}
+
+		public void RemoveAt(int index)
+		{
+			var view = _views[index];
+			view.Destroy();
+			_views.RemoveAt(index);
+		}
+
+		public override IEnumerator<TView> GetEnumerator() => _views.GetEnumerator();
 	}
 
-	public abstract class UiCollection<TView> : UiCollectionBase<TView>, IUiCollection<TView>
+	public class UiListCollection<TView> : UiListCollectionBase<TView>, IUiListCollection<TView>
 		where TView : UiView
 	{
 		public TView Create()
@@ -43,7 +52,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public abstract class UiCollection<TParam1, TView> : UiCollectionBase<TView>, IUiCollection<TParam1, TView>
+	public class UiListCollection<TParam1, TView> : UiListCollectionBase<TView>,
+		IUiListCollection<TParam1, TView>
 		where TView : UiView, IParametrizedView<TParam1>
 	{
 		public TView Create(TParam1 param1)
@@ -55,8 +65,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public abstract class UiCollection<TParam1, TParam2, TView> : UiCollectionBase<TView>,
-		IUiCollection<TParam1, TParam2, TView>
+	public class UiListCollection<TParam1, TParam2, TView> : UiListCollectionBase<TView>,
+		IUiListCollection<TParam1, TParam2, TView>
 		where TView : UiView, IParametrizedView<TParam1, TParam2>
 	{
 		public TView Create(TParam1 param1, TParam2 param2)
@@ -68,8 +78,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public abstract class UiCollection<TParam1, TParam2, TParam3, TView> : UiCollectionBase<TView>,
-		IUiCollection<TParam1, TParam2, TParam3, TView>
+	public class UiListCollection<TParam1, TParam2, TParam3, TView> : UiListCollectionBase<TView>,
+		IUiListCollection<TParam1, TParam2, TParam3, TView>
 		where TView : UiView, IParametrizedView<TParam1, TParam2, TParam3>
 	{
 		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3)
@@ -81,8 +91,8 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TView> : UiCollectionBase<TView>,
-		IUiCollection<TParam1, TParam2, TParam3, TParam4, TView>
+	public class UiListCollection<TParam1, TParam2, TParam3, TParam4, TView> : UiListCollectionBase<TView>,
+		IUiListCollection<TParam1, TParam2, TParam3, TParam4, TView>
 		where TView : UiView, IParametrizedView<TParam1, TParam2, TParam3, TParam4>
 	{
 		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
@@ -94,8 +104,9 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView> : UiCollectionBase<TView>,
-		IUiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView>
+	public class UiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView> :
+		UiListCollectionBase<TView>,
+		IUiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView>
 		where TView : UiView, IParametrizedView<TParam1, TParam2, TParam3, TParam4, TParam5>
 	{
 		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
@@ -107,9 +118,9 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView> :
-		UiCollectionBase<TView>,
-		IUiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
+	public class UiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView> :
+		UiListCollectionBase<TView>,
+		IUiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TView>
 		where TView : UiView, IParametrizedView<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>
 	{
 		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
@@ -122,9 +133,9 @@ namespace SimpleUi.Abstracts
 		}
 	}
 
-	public abstract class UiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView> :
-		UiCollectionBase<TView>,
-		IUiCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView>
+	public class UiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView> :
+		UiListCollectionBase<TView>,
+		IUiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView>
 		where TView : UiView, IParametrizedView<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>
 	{
 		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
