@@ -82,12 +82,15 @@ namespace SimpleUi
 
 		private void OnBack()
 		{
-			if (_windowsStack.Count == 1)
+			if (_windowsStack.Count == 0)
 				return;
+
 			var currentWindow = _windowsStack.Pop();
 			currentWindow.Back();
 			_signalBus.FireId(_windowLayer, new SignalCloseWindow(currentWindow));
 
+			if (_windowsStack.Count == 0)
+				return;
 			var previousWindow = _windowsStack.Peek();
 			var isPreviousWindowPopUp = previousWindow is IPopUp;
 			if (isPreviousWindowPopUp)

@@ -162,7 +162,7 @@ namespace SimpleUi
 		{
 			_signalBus.BackWindow();
 
-			AssertController(State.Open, _firstController);
+			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Closed, _thirdController);
 			AssertController(State.Closed, _popUpFirst);
