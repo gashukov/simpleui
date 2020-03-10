@@ -10,24 +10,27 @@ namespace SimpleUi.Managers
 	public class UiMapperManager : IInitializable, IDisposable
 	{
 		private readonly SignalBus _signalBus;
-		private CompositeDisposable _disposable = new CompositeDisposable();
+		private readonly EWindowLayer _windowLayer;
+		private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
 		private WindowData _windowData;
 		public WindowData WindowData => _windowData;
 
-		public UiMapperManager(SignalBus signalBus)
+		public UiMapperManager(SignalBus signalBus, EWindowLayer windowLayer)
 		{
 			_signalBus = signalBus;
+			_windowLayer = windowLayer;
 		}
 
 		public void Initialize()
 		{
-			_signalBus.GetStream<SignalActiveWindow>().Subscribe(f => OnWindowChange(f.Window)).AddTo(_disposable);
+			_signalBus.GetStreamId<SignalActiveWindow>(_windowLayer).Subscribe(f => OnWindowChange(f.Window))
+				.AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_disposable.Dispose();
+			_disposables.Dispose();
 		}
 
 		private void OnWindowChange(IWindow window)

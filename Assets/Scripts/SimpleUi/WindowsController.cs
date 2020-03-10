@@ -13,6 +13,8 @@ namespace SimpleUi
 		private readonly DiContainer _container;
 		private readonly SignalBus _signalBus;
 		private readonly List<IWindow> _windows;
+		private readonly WindowState _windowState;
+		private readonly EWindowLayer _windowLayer;
 		private readonly Stack<IWindow> _windowsStack = new Stack<IWindow>();
 		private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
@@ -20,18 +22,26 @@ namespace SimpleUi
 
 		public Stack<IWindow> Windows => _windowsStack;
 
-		public WindowsController(DiContainer container, SignalBus signalBus, List<IWindow> windows)
+		public WindowsController(
+			DiContainer container,
+			SignalBus signalBus,
+			[Inject(Source = InjectSources.Local)] List<IWindow> windows,
+			[Inject(Source = InjectSources.Local)] WindowState windowState,
+			EWindowLayer windowLayer
+		)
 		{
 			_container = container;
 			_signalBus = signalBus;
 			_windows = windows;
+			_windowState = windowState;
+			_windowLayer = windowLayer;
 		}
 
 		public void Initialize()
 		{
-			_signalBus.GetStream<SignalOpenWindow>().Subscribe(OnOpen).AddTo(_disposables);
-			_signalBus.GetStream<SignalBackWindow>().Subscribe(_ => OnBack()).AddTo(_disposables);
-			_signalBus.GetStream<SignalOpenRootWindow>().Subscribe(OnOpenRoot).AddTo(_disposables);
+			_signalBus.GetStreamId<SignalOpenWindow>(_windowLayer).Subscribe(OnOpen).AddTo(_disposables);
+			_signalBus.GetStreamId<SignalBackWindow>(_windowLayer).Subscribe(_ => OnBack()).AddTo(_disposables);
+			_signalBus.GetStreamId<SignalOpenRootWindow>(_windowLayer).Subscribe(OnOpenRootWindow).AddTo(_disposables);
 		}
 
 		public void Dispose() => _disposables.Dispose();
@@ -72,12 +82,15 @@ namespace SimpleUi
 
 		private void OnBack()
 		{
-			if (_windowsStack.Count == 1)
+			if (_windowsStack.Count == 0)
 				return;
+
 			var currentWindow = _windowsStack.Pop();
 			currentWindow.Back();
-			_signalBus.Fire(new SignalCloseWindow(currentWindow));
+			_signalBus.FireId(_windowLayer, new SignalCloseWindow(currentWindow));
 
+			if (_windowsStack.Count == 0)
+				return;
 			var previousWindow = _windowsStack.Peek();
 			var isPreviousWindowPopUp = previousWindow is IPopUp;
 			if (isPreviousWindowPopUp)
@@ -98,8 +111,9 @@ namespace SimpleUi
 		{
 			if (!isPopUp)
 				_window = window;
-			_signalBus.Fire(new SignalActiveWindow(window));
-			_signalBus.Fire(new SignalFocusWindow(window));
+			_windowState.CurrentWindowName = window.Name;
+			_signalBus.FireId(_windowLayer, new SignalActiveWindow(window));
+			_signalBus.FireId(_windowLayer, new SignalFocusWindow(window));
 		}
 
 		private IWindow GetFirstWindow()
@@ -114,7 +128,7 @@ namespace SimpleUi
 			return null;
 		}
 
-		private void OnOpenRoot(SignalOpenRootWindow obj)
+		private void OnOpenRootWindow(SignalOpenRootWindow obj)
 		{
 			while (_windowsStack.Count > 1)
 			{

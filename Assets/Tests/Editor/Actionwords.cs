@@ -4,8 +4,10 @@ using SimpleUi.Interfaces;
 using SimpleUi.Signals;
 using Zenject;
 
-namespace SimpleUi {
-	public class Actionwords {
+namespace SimpleUi
+{
+	public class Actionwords
+	{
 		[Inject] private FirstController _firstController;
 		[Inject] private SecondController _secondController;
 		[Inject] private ThirdController _thirdController;
@@ -13,9 +15,10 @@ namespace SimpleUi {
 		[Inject] private PopUpSecondController _popUpSecond;
 		[Inject] private SignalBus _signalBus;
 
-		public void OpenFirstIsActive() {
-			_signalBus.Fire(SignalOpenWindow.Build<FirstWindow>());
-			
+		public void OpenFirstIsActive()
+		{
+			_signalBus.OpenWindow<FirstWindow>();
+
 			AssertController(State.Open, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Closed, _thirdController);
@@ -23,9 +26,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void OpenSecondIsActive() {
-			_signalBus.Fire(SignalOpenWindow.Build<SecondWindow>());
-			
+		public void OpenSecondIsActive()
+		{
+			_signalBus.OpenWindow<SecondWindow>();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Open, _secondController);
 			AssertController(State.Closed, _thirdController);
@@ -33,9 +37,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void OpenThirdIsActive() {
-			_signalBus.Fire(SignalOpenWindow.Build<ThirdWindow>());
-			
+		public void OpenThirdIsActive()
+		{
+			_signalBus.OpenWindow<ThirdWindow>();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Open, _thirdController);
@@ -43,9 +48,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void OpenPopUpFirstIsActive() {
-			_signalBus.Fire(SignalOpenWindow.Build<FirstPopUpWindow>());
-			
+		public void OpenPopUpFirstIsActive()
+		{
+			_signalBus.OpenWindow<FirstPopUpWindow>();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Background, _thirdController);
@@ -53,9 +59,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void OpenPopUpSecondIsActive() {
-			_signalBus.Fire(SignalOpenWindow.Build<SecondPopUpWindow>());
-			
+		public void OpenPopUpSecondIsActive()
+		{
+			_signalBus.OpenWindow<SecondPopUpWindow>();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Background, _thirdController);
@@ -63,9 +70,10 @@ namespace SimpleUi {
 			AssertController(State.Open, _popUpSecond);
 		}
 
-		public void BackPopUpSecondClosed() {
-			_signalBus.Fire<SignalBackWindow>();
-			
+		public void BackPopUpSecondClosed()
+		{
+			_signalBus.BackWindow();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Background, _thirdController);
@@ -73,9 +81,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void OpenTwoControllerWindowFirstSecondIsActive() {
-			_signalBus.Fire(SignalOpenWindow.Build<WindowTwoControllers>());
-			
+		public void OpenTwoControllerWindowFirstSecondIsActive()
+		{
+			_signalBus.OpenWindow<WindowTwoControllers>();
+
 			AssertController(State.Open, _firstController);
 			AssertController(State.Open, _secondController);
 			AssertController(State.Closed, _thirdController);
@@ -83,9 +92,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void OpenThreeControllerWindowFirstSecondThirdIsActive() {
-			_signalBus.Fire(SignalOpenWindow.Build<WindowThreeControllers>());
-			
+		public void OpenThreeControllerWindowFirstSecondThirdIsActive()
+		{
+			_signalBus.OpenWindow<WindowThreeControllers>();
+
 			AssertController(State.Open, _firstController);
 			AssertController(State.Open, _secondController);
 			AssertController(State.Open, _thirdController);
@@ -93,9 +103,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void BackThreeControllerWindowThirdClosed() {
-			_signalBus.Fire<SignalBackWindow>();
-			
+		public void BackThreeControllerWindowThirdClosed()
+		{
+			_signalBus.BackWindow();
+
 			AssertController(State.Open, _firstController);
 			AssertController(State.Open, _secondController);
 			AssertController(State.Closed, _thirdController);
@@ -103,9 +114,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void BackTwoControllerWindowSecondClosedPopUpFirstIsActive() {
-			_signalBus.Fire<SignalBackWindow>();
-			
+		public void BackTwoControllerWindowSecondClosedPopUpFirstIsActive()
+		{
+			_signalBus.BackWindow();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Background, _thirdController);
@@ -113,9 +125,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void BackPopUpFirstPopUpFirstClosedThirdIsActive() {
-			_signalBus.Fire<SignalBackWindow>();
-			
+		public void BackPopUpFirstPopUpFirstClosedThirdIsActive()
+		{
+			_signalBus.BackWindow();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Open, _thirdController);
@@ -123,9 +136,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void BackThirdThirdClosedSecondIsActive() {
-			_signalBus.Fire<SignalBackWindow>();
-			
+		public void BackThirdThirdClosedSecondIsActive()
+		{
+			_signalBus.BackWindow();
+
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Open, _secondController);
 			AssertController(State.Closed, _thirdController);
@@ -133,9 +147,10 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void BackSecondSecondClosedFirstIsActive() {
-			_signalBus.Fire<SignalBackWindow>();
-			
+		public void BackSecondSecondClosedFirstIsActive()
+		{
+			_signalBus.BackWindow();
+
 			AssertController(State.Open, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Closed, _thirdController);
@@ -143,18 +158,21 @@ namespace SimpleUi {
 			AssertController(State.Closed, _popUpSecond);
 		}
 
-		public void BackFirstFirstIsActive() {
-			_signalBus.Fire<SignalBackWindow>();
-			
-			AssertController(State.Open, _firstController);
+		public void BackFirstFirstIsActive()
+		{
+			_signalBus.BackWindow();
+
+			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Closed, _thirdController);
 			AssertController(State.Closed, _popUpFirst);
 			AssertController(State.Closed, _popUpSecond);
 		}
-		
-		private void AssertController(State state, IUiController controller) {
-			switch (state) {
+
+		private void AssertController(State state, IUiController controller)
+		{
+			switch (state)
+			{
 				case State.Open:
 					Assert.AreEqual(true, controller.IsActive);
 					Assert.AreEqual(true, controller.InFocus);
@@ -170,10 +188,10 @@ namespace SimpleUi {
 				default:
 					throw new ArgumentOutOfRangeException(nameof(state), state, null);
 			}
-			
 		}
-		
-		private enum State {
+
+		private enum State
+		{
 			Open,
 			Closed,
 			Background

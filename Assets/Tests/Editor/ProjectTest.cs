@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using SimpleUi.Signals;
 using Tests.Abstracts;
 using Zenject;
 
@@ -10,7 +11,7 @@ namespace SimpleUi {
 		protected override void Install(DiContainer container) {
 			_actionwords = new Actionwords();
 
-			container.BindUiSignals();
+			container.BindUiSignals(EWindowLayer.Local);
 
 			container.BindInterfacesAndSelfTo<FirstController>().AsSingle();
 			container.BindInterfacesAndSelfTo<SecondController>().AsSingle();
@@ -26,7 +27,7 @@ namespace SimpleUi {
 			container.Bind<WindowTwoControllers>().AsSingle();
 			container.Bind<WindowThreeControllers>().AsSingle();
 			
-			container.BindWindowsController<WindowsController>();
+			container.BindWindowsController<WindowsController>(EWindowLayer.Local);
 
 			container.Inject(_actionwords);
 		}

@@ -42,6 +42,6 @@ namespace SimpleUi.Abstracts
 			SetState(_states.Pop());
 		}
 
-		public IUiElement[] GetUiElements() => null;
+		public IUiElement[] GetUiElements() => new IUiElement[0];
 	}
 }
