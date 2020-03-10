@@ -7,18 +7,30 @@ namespace SimpleUi.Abstracts
 	public abstract class UiPooledCollectionBase<TView> : UiCollectionBase<TView>, IUiPooledCollectionBase<TView>
 		where TView : MonoBehaviour, IUiView
 	{
+		private readonly List<TView> _pool = new List<TView>();
 		private readonly List<TView> _views = new List<TView>();
 
 		protected TView GetFromPool()
 		{
-			if (_views.Count == 0)
+			if (_pool.Count == 0)
 				return null;
-			var view = _views[0];
-			_views.RemoveAt(0);
+			var view = _pool[0];
+			_pool.RemoveAt(0);
 			return view;
 		}
 
-		public override void Clear() => _views.Clear();
+		protected override void OnCreated(TView view)
+		{
+			base.OnCreated(view);
+			_views.Add(view);
+		}
+
+		public override void Clear()
+		{
+			foreach (var item in _views)
+				Despawn(item);
+			_views.Clear();
+		}
 
 		public override int Count() => _views.Count;
 
@@ -26,7 +38,7 @@ namespace SimpleUi.Abstracts
 		{
 			view.Hide();
 			OnDespawn(view);
-			_views.Add(view);
+			_pool.Add(view);
 		}
 
 		protected virtual void OnDespawn(TView view)
@@ -131,7 +143,8 @@ namespace SimpleUi.Abstracts
 	public abstract class UiPooledCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView> :
 		UiPooledCollectionBase<TView>,
 		IUiPooledCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TView>
-		where TView : MonoBehaviour, IUiView, IParametrizedView<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>
+		where TView : MonoBehaviour, IUiView,
+		IParametrizedView<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>
 	{
 		public TView Create(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
 			TParam6 param6,

@@ -8,7 +8,7 @@ namespace SimpleUi.Interfaces
 
 		void RemoveAt(int index);
 	}
-	
+
 	public interface IUiListCollection<TView> : IUiListCollectionBase<TView>, IUiFactory<TView>
 		where TView : IUiView
 	{
@@ -38,7 +38,8 @@ namespace SimpleUi.Interfaces
 	{
 	}
 
-	public interface IUiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView> : IUiListCollectionBase<TView>,
+	public interface IUiListCollection<TParam1, TParam2, TParam3, TParam4, TParam5, TView> :
+		IUiListCollectionBase<TView>,
 		IUiFactory<TParam1, TParam2, TParam3, TParam4, TParam5, TView>
 		where TView : IUiView, IParametrizedView<TParam1, TParam2, TParam3, TParam4, TParam5>
 	{

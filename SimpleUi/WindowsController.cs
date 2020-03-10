@@ -13,6 +13,7 @@ namespace SimpleUi
 		private readonly DiContainer _container;
 		private readonly SignalBus _signalBus;
 		private readonly List<IWindow> _windows;
+		private readonly WindowState _windowState;
 		private readonly EWindowLayer _windowLayer;
 		private readonly Stack<IWindow> _windowsStack = new Stack<IWindow>();
 		private readonly CompositeDisposable _disposables = new CompositeDisposable();
@@ -21,18 +22,18 @@ namespace SimpleUi
 
 		public Stack<IWindow> Windows => _windowsStack;
 
-		public string CurrentWindowName => _windowsStack.Count > 0 ? _windowsStack.Peek().Name : string.Empty;
-
 		public WindowsController(
 			DiContainer container,
 			SignalBus signalBus,
 			[Inject(Source = InjectSources.Local)] List<IWindow> windows,
+			[Inject(Source = InjectSources.Local)] WindowState windowState,
 			EWindowLayer windowLayer
 		)
 		{
 			_container = container;
 			_signalBus = signalBus;
 			_windows = windows;
+			_windowState = windowState;
 			_windowLayer = windowLayer;
 		}
 
@@ -107,6 +108,7 @@ namespace SimpleUi
 		{
 			if (!isPopUp)
 				_window = window;
+			_windowState.CurrentWindowName = window.Name;
 			_signalBus.FireId(_windowLayer, new SignalActiveWindow(window));
 			_signalBus.FireId(_windowLayer, new SignalFocusWindow(window));
 		}
