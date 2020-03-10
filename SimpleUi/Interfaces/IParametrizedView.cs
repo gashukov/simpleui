@@ -6,7 +6,7 @@ namespace SimpleUi.Interfaces
 
 	public interface IParametrizedView<TParam1> : IParametrizedView
 	{
-		void Parametrize(TParam1 param1);
+		void Parametrize(TParam1 id);
 	}
 
 	public interface IParametrizedView<TParam1, TParam2> : IParametrizedView
