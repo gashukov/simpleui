@@ -34,6 +34,9 @@ namespace SimpleUi
 		{
 			container.BindInitializableExecutionOrder<T>(-1000);
 			container.BindInterfacesTo<T>().AsSingle().WithArguments(windowLayer).NonLazy();
+			var windowState = new WindowState();
+			container.BindInterfacesTo<WindowState>().FromInstance(windowState).AsSingle();
+			container.Bind<WindowState>().FromInstance(windowState).WhenInjectedInto<T>();
 			container.BindInterfacesAndSelfTo<UiMapperManager>().AsSingle().WithArguments(windowLayer).NonLazy();
 		}
 	}
