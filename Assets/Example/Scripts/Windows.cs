@@ -34,7 +34,7 @@ namespace Example
 		}
 	}
 
-	public class FirstPopUpWindow : WindowBase, IPopUp
+	public class FirstPopUpWindow : WindowBase, IPopUp, INoneHidden
 	{
 		public override string Name => "FirstPopUp";
 
