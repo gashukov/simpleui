@@ -66,7 +66,7 @@ namespace SimpleUi
 			AssertController(State.Closed, _firstController);
 			AssertController(State.Closed, _secondController);
 			AssertController(State.Background, _thirdController);
-			AssertController(State.Closed, _popUpFirst);
+			AssertController(State.Background, _popUpFirst);
 			AssertController(State.Open, _popUpSecond);
 		}
 
