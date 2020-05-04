@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SimpleUi.Interfaces;
 using SimpleUi.Models;
 using SimpleUi.Signals;
@@ -63,16 +64,32 @@ namespace SimpleUi
 			if (currentWindow != null)
 			{
 				var isCurrentWindowPopUp = currentWindow is IPopUp;
+				var isCurrentWindowNoneHidden = currentWindow is INoneHidden;
 				if (isCurrentWindowPopUp)
 				{
-					currentWindow.SetState(UiWindowState.NotActiveNotFocus);
 					if (!isNextWindowPopUp)
-						_window?.SetState(UiWindowState.NotActiveNotFocus);
+					{
+						var openedWindows = GetPreviouslyOpenedWindows();
+						var popupsOpened = GetPopupsOpened(openedWindows);
+						var last = openedWindows.Last();
+						last.SetState(UiWindowState.NotActiveNotFocus);
+
+						foreach (var openedPopup in popupsOpened)
+						{
+							openedPopup.SetState(UiWindowState.NotActiveNotFocus);
+						}
+					}
+					else
+						currentWindow.SetState(isCurrentWindowNoneHidden
+							? UiWindowState.IsActiveNotFocus
+							: UiWindowState.NotActiveNotFocus);
 				}
 				else if (isNextWindowPopUp)
 					_window?.SetState(UiWindowState.IsActiveNotFocus);
 				else
-					_window?.SetState(UiWindowState.NotActiveNotFocus);
+					_window?.SetState(isCurrentWindowNoneHidden
+						? UiWindowState.IsActiveNotFocus
+						: UiWindowState.NotActiveNotFocus);
 			}
 
 			_windowsStack.Push(window);
@@ -88,23 +105,35 @@ namespace SimpleUi
 			var currentWindow = _windowsStack.Pop();
 			currentWindow.Back();
 			_signalBus.FireId(_windowLayer, new SignalCloseWindow(currentWindow));
+			OpenPreviousWindows();
+		}
 
+		private void OpenPreviousWindows()
+		{
 			if (_windowsStack.Count == 0)
 				return;
-			var previousWindow = _windowsStack.Peek();
-			var isPreviousWindowPopUp = previousWindow is IPopUp;
-			if (isPreviousWindowPopUp)
+
+			var openedWindows = GetPreviouslyOpenedWindows();
+			var popupsOpened = GetPopupsOpened(openedWindows);
+			var firstWindow = GetFirstWindow();
+			var isFirstPopUp = false;
+
+			var isNoPopups = popupsOpened.Count == 0;
+			if (firstWindow != _window || isNoPopups)
 			{
-				var firstWindow = GetFirstWindow();
-				if (firstWindow != _window)
-				{
-					_window = firstWindow;
-					_window.Back();
-				}
+				firstWindow = openedWindows.Last();
+				firstWindow.Back();
+				_window = firstWindow;
 			}
 
-			previousWindow.Back();
-			ActiveAndFocus(previousWindow, isPreviousWindowPopUp);
+			foreach (var window in popupsOpened)
+			{
+				window.Back();
+				firstWindow = window;
+				isFirstPopUp = true;
+			}
+
+			ActiveAndFocus(firstWindow, isFirstPopUp);
 		}
 
 		private void ActiveAndFocus(IWindow window, bool isPopUp)
@@ -114,6 +143,54 @@ namespace SimpleUi
 			_windowState.CurrentWindowName = window.Name;
 			_signalBus.FireId(_windowLayer, new SignalActiveWindow(window));
 			_signalBus.FireId(_windowLayer, new SignalFocusWindow(window));
+		}
+
+		private List<IWindow> GetPreviouslyOpenedWindows()
+		{
+			var windows = new List<IWindow>();
+
+			var hasWindow = false;
+			foreach (var window in _windowsStack)
+			{
+				var isPopUp = window is IPopUp;
+				if (isPopUp)
+				{
+					if (hasWindow)
+						break;
+
+					windows.Add(window);
+					continue;
+				}
+
+				if (hasWindow)
+					break;
+				windows.Add(window);
+				hasWindow = true;
+			}
+
+			return windows;
+		}
+
+		private Stack<IWindow> GetPopupsOpened(List<IWindow> windows)
+		{
+			var stack = new Stack<IWindow>();
+
+			var hasPopup = false;
+			for (var i = 0; i < windows.Count; i++)
+			{
+				var window = windows[i];
+				var isPopUp = window is IPopUp;
+				if (!isPopUp)
+					break;
+
+				if (hasPopup && !(window is INoneHidden))
+					break;
+
+				stack.Push(window);
+				hasPopup = true;
+			}
+
+			return stack;
 		}
 
 		private IWindow GetFirstWindow()
