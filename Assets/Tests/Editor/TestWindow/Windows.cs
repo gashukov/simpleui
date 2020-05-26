@@ -75,4 +75,14 @@ namespace SimpleUi
 			AddController<PopUpSecondController>();
 		}
 	}
+
+	public class ThirdPopUpWindow : WindowBase, IPopUp
+	{
+		public override string Name => "ThirdPopUp";
+
+		protected override void AddControllers()
+		{
+			AddController<PopUpThirdController>();
+		}
+	}
 }

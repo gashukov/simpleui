@@ -10,4 +10,6 @@ namespace SimpleUi {
 	public class PopUpFirstController : TestUiController { }
 
 	public class PopUpSecondController : TestUiController { }
+	
+	public class PopUpThirdController : TestUiController { }
 }

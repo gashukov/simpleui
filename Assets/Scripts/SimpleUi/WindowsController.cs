@@ -119,18 +119,27 @@ namespace SimpleUi
 			var isFirstPopUp = false;
 
 			var isNoPopups = popupsOpened.Count == 0;
-			if (firstWindow != _window || isNoPopups)
+			var isOtherWindow = firstWindow != _window;
+			if (isOtherWindow || isNoPopups)
 			{
 				firstWindow = openedWindows.Last();
 				firstWindow.Back();
 				_window = firstWindow;
 			}
 
-			foreach (var window in popupsOpened)
+			if (!isNoPopups)
 			{
+				var window = popupsOpened.Last();
 				window.Back();
 				firstWindow = window;
 				isFirstPopUp = true;
+
+				if (isOtherWindow)
+				{
+					var nonHiddenPopUps = popupsOpened.Take(popupsOpened.Count - 1);
+					foreach (var nonHiddenPopUp in nonHiddenPopUps)
+						nonHiddenPopUp.Back();
+				}
 			}
 
 			ActiveAndFocus(firstWindow, isFirstPopUp);
@@ -184,7 +193,7 @@ namespace SimpleUi
 					break;
 
 				if (hasPopup && !(window is INoneHidden))
-					break;
+					continue;
 
 				stack.Push(window);
 				hasPopup = true;
