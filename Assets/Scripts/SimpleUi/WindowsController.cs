@@ -221,5 +221,15 @@ namespace SimpleUi
 				OnBack();
 			}
 		}
+
+		public void Reset()
+		{
+			while (_windowsStack.Count > 0)
+			{
+				OnBack();
+			}
+
+			_window = null;
+		}
 	}
 }
