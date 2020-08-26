@@ -27,15 +27,17 @@ namespace SimpleUi.Abstracts
 
 		public override void Clear()
 		{
-			foreach (var item in _views)
-				Despawn(item);
-			_views.Clear();
+			while (_views.Count > 0)
+			{
+				Despawn(_views[0]);
+			}
 		}
 
 		public override int Count() => _views.Count;
 
 		public void Despawn(TView view)
 		{
+			_views.Remove(view);
 			view.Hide();
 			OnDespawn(view);
 			_pool.Add(view);
