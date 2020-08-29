@@ -1,9 +1,10 @@
 ﻿using SimpleUi.Interfaces;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace SimpleUi.Abstracts
 {
-	public abstract class UiView : MonoBehaviour, IUiView
+	public abstract class UiView : UIBehaviour, IUiView
 	{
 		void IUiView.Show()
 		{
@@ -35,8 +36,8 @@ namespace SimpleUi.Abstracts
 			var parent = transform.parent;
 			if (parent == null)
 				return;
-			var childsCount = parent.childCount - 1;
-			transform.SetSiblingIndex(childsCount - index);
+			var childCount = parent.childCount - 1;
+			transform.SetSiblingIndex(childCount - index);
 		}
 
 		IUiElement[] IUiView.GetUiElements()

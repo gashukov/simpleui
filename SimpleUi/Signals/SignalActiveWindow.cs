@@ -4,7 +4,7 @@ namespace SimpleUi.Signals
 {
 	public class SignalActiveWindow
 	{
-		public IWindow Window;
+		public readonly IWindow Window;
 
 		public SignalActiveWindow(IWindow window)
 		{
