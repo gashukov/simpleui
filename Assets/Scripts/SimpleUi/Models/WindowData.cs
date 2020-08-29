@@ -5,8 +5,8 @@ namespace SimpleUi.Models
 {
 	public class WindowData
 	{
-		public string Name;
-		private Dictionary<string, ElementData> _elements = new Dictionary<string, ElementData>();
+		public readonly string Name;
+		private readonly Dictionary<string, ElementData> _elements = new Dictionary<string, ElementData>();
 
 		public WindowData(string name, IUiElement[] elements)
 		{

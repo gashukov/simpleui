@@ -4,7 +4,7 @@ namespace SimpleUi.Signals
 {
 	public class SignalCloseWindow
 	{
-		public IWindow Window;
+		public readonly IWindow Window;
 
 		public SignalCloseWindow(IWindow window)
 		{

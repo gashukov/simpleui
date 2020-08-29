@@ -4,7 +4,7 @@ namespace SimpleUi.Signals
 {
 	public class SignalFocusWindow
 	{
-		public IWindow Window;
+		public readonly IWindow Window;
 
 		public SignalFocusWindow(IWindow window)
 		{
