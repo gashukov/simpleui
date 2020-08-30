@@ -22,7 +22,7 @@ namespace SimpleUi.Abstracts
 			_views.Clear();
 		}
 
-		public override int Count() => _views.Count;
+		public override int Count => _views.Count;
 
 		public TView this[int index] => _views[index];
 

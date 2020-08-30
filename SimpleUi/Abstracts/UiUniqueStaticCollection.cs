@@ -27,7 +27,7 @@ namespace SimpleUi.Abstracts
 			views.Clear();
 		}
 
-		public int Count() => _views.Count;
+		public int Count => _views.Count;
 
 		public TView this[TKey key] => _views[key];
 

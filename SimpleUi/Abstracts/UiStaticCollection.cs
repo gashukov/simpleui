@@ -14,7 +14,7 @@ namespace SimpleUi.Abstracts
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-		public int Count() => Views.Count;
+		public int Count => Views.Count;
 
 		public void Clear() => Views.Clear();
 
