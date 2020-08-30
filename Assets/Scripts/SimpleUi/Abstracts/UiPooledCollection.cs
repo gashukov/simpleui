@@ -33,7 +33,7 @@ namespace SimpleUi.Abstracts
 			}
 		}
 
-		public override int Count() => _views.Count;
+		public override int Count => _views.Count;
 
 		public void Despawn(TView view)
 		{

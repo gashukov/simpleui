@@ -6,9 +6,12 @@ namespace SimpleUi.Abstracts
 {
 	public abstract class UiView : UIBehaviour, IUiView
 	{
+		public bool IsShow { get; private set; }
+
 		void IUiView.Show()
 		{
 			gameObject.SetActive(true);
+			IsShow = true;
 			OnShow();
 		}
 
@@ -19,6 +22,7 @@ namespace SimpleUi.Abstracts
 		void IUiView.Hide()
 		{
 			gameObject.SetActive(false);
+			IsShow = false;
 			OnHide();
 		}
 

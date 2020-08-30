@@ -5,7 +5,8 @@ namespace SimpleUi.Interfaces
 	public interface IUiCollectionBase<TView> : IEnumerable<TView>
 		where TView : IUiView
 	{
-		int Count();
+		int Count { get; }
+		
 		void Clear();
 	}
 

@@ -22,7 +22,7 @@ namespace SimpleUi.Abstracts
 
 		public abstract void Clear();
 
-		public abstract int Count();
+		public abstract int Count { get; }
 
 		public abstract IEnumerator<TView> GetEnumerator();
 
