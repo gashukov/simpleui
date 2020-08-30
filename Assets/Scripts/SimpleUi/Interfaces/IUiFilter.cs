@@ -4,7 +4,10 @@ namespace SimpleUi.Interfaces
 {
 	public interface IUiFilter
 	{
-		void SetFilter(List<int> objectsId);
+		bool BlockAll { get; set; }
+
+		void SetFilter(IEnumerable<int> objectsId);
+		void SetFilter(params int[] objectsId);
 		void DropFilter();
 	}
 }
