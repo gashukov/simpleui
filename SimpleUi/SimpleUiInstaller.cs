@@ -12,6 +12,7 @@ namespace SimpleUi
 		{
 			Container.BindInitializableExecutionOrder<WindowsController>(-1000);
 			Container.BindInterfacesTo<WindowsController>().AsSingle().NonLazy();
+			Container.Bind<WindowState>().AsSingle();
 
 			Container.BindUiSignals(windowLayer);
 		}
