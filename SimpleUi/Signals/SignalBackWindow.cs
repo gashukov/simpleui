@@ -1,6 +1,6 @@
 namespace SimpleUi.Signals
 {
-	public class SignalBackWindow
+	public readonly struct SignalBackWindow
 	{
 	}
 }

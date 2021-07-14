@@ -2,7 +2,7 @@
 
 namespace SimpleUi.Signals
 {
-	public class SignalOpenWindow
+	public readonly struct SignalOpenWindow
 	{
 		public readonly Type Type;
 		public readonly string Name;
@@ -10,10 +10,12 @@ namespace SimpleUi.Signals
 		public SignalOpenWindow(Type type)
 		{
 			Type = type;
+			Name = null;
 		}
 
 		public SignalOpenWindow(string name)
 		{
+			Type = null;
 			Name = name;
 		}
 	}
