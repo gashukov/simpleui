@@ -1,4 +1,4 @@
-﻿using SimpleUi.Interfaces;
+using SimpleUi.Interfaces;
 using SimpleUi.Managers;
 using SimpleUi.Signals;
 using UnityEngine;
@@ -37,7 +37,7 @@ namespace SimpleUi
 			var windowState = new WindowState();
 			container.BindInterfacesTo<WindowState>().FromInstance(windowState).AsSingle();
 			container.Bind<WindowState>().FromInstance(windowState).WhenInjectedInto<T>();
-			container.BindInterfacesAndSelfTo<UiMapperManager>().AsSingle().WithArguments(windowLayer).NonLazy();
+			//container.BindInterfacesAndSelfTo<UiMapperManager>().AsSingle().WithArguments(windowLayer).NonLazy();
 		}
 	}
 }

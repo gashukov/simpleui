@@ -10,11 +10,7 @@ namespace SimpleUi
 
 		public override void InstallBindings()
 		{
-			Container.BindInitializableExecutionOrder<WindowsController>(-1000);
-			Container.BindInterfacesTo<WindowsController>().AsSingle()
-				.WithArguments(windowLayer).NonLazy();
-			Container.Bind<WindowState>().AsSingle();
-
+			Container.BindWindowsController<WindowsController>(windowLayer);
 			Container.BindUiSignals(windowLayer);
 		}
 	}
