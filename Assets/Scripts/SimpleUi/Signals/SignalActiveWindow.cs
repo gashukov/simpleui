@@ -2,7 +2,7 @@ using SimpleUi.Interfaces;
 
 namespace SimpleUi.Signals
 {
-	public class SignalActiveWindow
+	public readonly struct SignalActiveWindow
 	{
 		public readonly IWindow Window;
 

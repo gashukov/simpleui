@@ -1,4 +1,4 @@
-using SimpleUi.Interfaces;
+﻿using SimpleUi.Interfaces;
 using SimpleUi.Managers;
 using SimpleUi.Signals;
 using UnityEngine;
@@ -24,6 +24,7 @@ namespace SimpleUi
 			container.DeclareSignal<SignalOpenWindow>().WithId(windowLayer);
 			container.DeclareSignal<SignalOpenRootWindow>().WithId(windowLayer);
 			container.DeclareSignal<SignalBackWindow>().WithId(windowLayer);
+			container.DeclareSignal<SignalShowWindow>().WithId(windowLayer).OptionalSubscriber();
 			container.DeclareSignal<SignalActiveWindow>().WithId(windowLayer).OptionalSubscriber();
 			container.DeclareSignal<SignalFocusWindow>().WithId(windowLayer).OptionalSubscriber();
 			container.DeclareSignal<SignalCloseWindow>().WithId(windowLayer).OptionalSubscriber();

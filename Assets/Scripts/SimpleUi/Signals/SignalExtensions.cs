@@ -20,10 +20,4 @@ namespace SimpleUi.Signals
 		public static void BackWindow(this SignalBus signalBus, EWindowLayer windowLayer = EWindowLayer.Local)
 			=> signalBus.FireId<SignalBackWindow>(windowLayer);
 	}
-
-	public enum EWindowLayer
-	{
-		Local,
-		Project
-	}
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using SimpleUi.Interfaces;
@@ -95,6 +95,7 @@ namespace SimpleUi
 			_windowsStack.Push(window);
 			_windowState.CurrentWindowName = window.Name;
 			window.SetState(UiWindowState.IsActiveAndFocus);
+			_signalBus.FireId(_windowLayer, new SignalShowWindow(window));
 			ActiveAndFocus(window, isNextWindowPopUp);
 		}
 

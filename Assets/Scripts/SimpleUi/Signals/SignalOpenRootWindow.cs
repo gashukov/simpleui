@@ -1,6 +1,6 @@
 namespace SimpleUi.Signals
 {
-	public class SignalOpenRootWindow
+	public readonly struct SignalOpenRootWindow
 	{
 		
 	}
