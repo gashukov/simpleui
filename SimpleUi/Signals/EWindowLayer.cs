@@ -1,4 +1,4 @@
-namespace SimpleUi
+namespace SimpleUi.Signals
 {
 	public enum EWindowLayer
 	{
