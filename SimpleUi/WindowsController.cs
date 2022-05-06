@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SimpleUi.Interfaces;
@@ -116,11 +116,11 @@ namespace SimpleUi
 				return;
 
 			var openedWindows = GetPreviouslyOpenedWindows();
-			var popupsOpened = GetPopupsOpened(openedWindows);
+			var openedPopups = GetPopupsOpened(openedWindows);
 			var firstWindow = GetFirstWindow();
 			var isFirstPopUp = false;
 
-			var isNoPopups = popupsOpened.Count == 0;
+			var isNoPopups = openedPopups.Count == 0;
 			var isOtherWindow = firstWindow != _window;
 			if (isOtherWindow || isNoPopups)
 			{
@@ -131,16 +131,18 @@ namespace SimpleUi
 
 			if (!isNoPopups)
 			{
-				var window = popupsOpened.Last();
-				window.Back();
+				var window = openedPopups.Last();
 				firstWindow = window;
 				isFirstPopUp = true;
 
 				if (isOtherWindow)
 				{
-					var nonHiddenPopUps = popupsOpened.Take(popupsOpened.Count - 1);
-					foreach (var nonHiddenPopUp in nonHiddenPopUps)
-						nonHiddenPopUp.Back();
+					foreach (var openedPopup in openedPopups)
+						openedPopup.Back();
+				}
+				else
+				{
+					window.Back();
 				}
 			}
 
