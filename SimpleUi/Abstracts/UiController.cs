@@ -31,17 +31,12 @@ namespace SimpleUi.Abstracts
 
 		public void ProcessState()
 		{
-			if (IsActive != _currentState.IsActive)
-			{
-				IsActive = _currentState.IsActive;
-				if (_currentState.IsActive)
-					Show();
-				else
-					Hide();
-			}
+			IsActive = _currentState.IsActive;
+			if (_currentState.IsActive)
+				Show();
+			else
+				Hide();
 
-			if (InFocus == _currentState.InFocus)
-				return;
 			InFocus = _currentState.InFocus;
 			OnHasFocus(_currentState.InFocus);
 		}
