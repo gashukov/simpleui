@@ -66,10 +66,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-Assets/Plugins/Editor/Resources/DColorsBase.asset
-Assets/Plugins/Editor/Resources/DColorsBase.asset.meta
-SmartFoxServer/db/PostgreSQLPortable/Data/data
-SmartFoxServer/db/PostgreSQLPortable/Data/log.txt
-SmartFoxServer/logs
+/Assets/Plugins/Editor/Resources/DColorsBase.asset
+/Assets/Plugins/Editor/Resources/DColorsBase.asset.meta
 /Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking.csproj.meta
 /Assets/Plugins/Zenject/OptionalExtras/Signals/Zenject-Signals.csproj.meta
