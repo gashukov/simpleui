@@ -15,7 +15,7 @@ MonoBehaviour:
   packageSourcePaths:
   - Assets/Package
   packageIgnorePaths: []
-  packageDestinationPath: upm
+  packageDestinationPath: Release
   legacyPackageDestinationPath: 
   packageName: com.elestrago.simpleui
   displayName: Simple UI
