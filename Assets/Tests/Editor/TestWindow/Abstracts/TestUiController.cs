@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SimpleUi.Interfaces;
 using SimpleUi.Models;
 
@@ -42,6 +43,6 @@ namespace SimpleUi.Abstracts
 			SetState(_states.Pop());
 		}
 
-		public IUiElement[] GetUiElements() => new IUiElement[0];
+		public IUiElement[] GetUiElements() => Array.Empty<IUiElement>();
 	}
 }
